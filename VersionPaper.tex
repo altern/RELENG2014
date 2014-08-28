@@ -9,7 +9,7 @@
 % albeit, 'tighter' paper resulting in, invariably, fewer pages.
 %
 % ----------------------------------------------------------------------------------------------------------------
-% This .tex file (and associated .cls V2.5) produces:
+% This .tex file (and associated .cls V2.5) 
 %       1) The Permission Statement
 %       2) The Conference (location) Info information
 %       3) The Copyright Line with ACM data
@@ -50,20 +50,20 @@
 \begin{document}
 %
 % --- Author Metadata here ---
-\conferenceinfo{WOODSTOCK}{'97 El Paso, Texas USA}
+\conferenceinfo{ICSE '14}{City , Town Country}
 %\CopyrightYear{2007} % Allows default copyright year (20XX) to be over-ridden - IF NEED BE.
 %\crdata{0-12345-67-8/90/01}  % Allows default copyright data (0-89791-88-6/97/05) to be over-ridden - IF NEED BE.
 % --- End of Author Metadata ---
 
-\title{Alternate {\ttlit ACM} SIG Proceedings Paper in LaTeX
-Format\titlenote{(Produces the permission block, and
-copyright information). For use with
-SIG-ALTERNATE.CLS. Supported by ACM.}}
-\subtitle{[Extended Abstract]
-\titlenote{A full version of this paper is available as
-\textit{Author's Guide to Preparing ACM SIG Proceedings Using
-\LaTeX$2_\epsilon$\ and BibTeX} at
-\texttt{www.acm.org/eaddress.htm}}}
+\title{Alternate {\ttlit ACM} SIG Proceedings Paper in LaTeX}
+%Format\titlenote{(Produces the permission block, and
+%copyright information). For use with
+%SIG-ALTERNATE.CLS. Supported by ACM.}}
+\subtitle{[Extended Abstract]}
+%\titlenote{A full version of this paper is available as
+%\textit{Author's Guide to Preparing ACM SIG Proceedings Using
+%\LaTeX$2_\epsilon$\ and BibTeX} at
+%\texttt{www.acm.org/eaddress.htm}}}
 %
 % You need the command \numberofauthors to handle the 'placement
 % and alignment' of the authors beneath the title.
@@ -106,54 +106,34 @@ SIG-ALTERNATE.CLS. Supported by ACM.}}
 %
 % 1st. author
 \alignauthor
-Ben Trovato\titlenote{Dr.~Trovato insisted his name be first.}\\
+Ben Trovato
        \affaddr{Institute for Clarity in Documentation}\\
        \affaddr{1932 Wallamaloo Lane}\\
        \affaddr{Wallamaloo, New Zealand}\\
        \email{trovato@corporation.com}
 % 2nd. author
 \alignauthor
-G.K.M. Tobin\titlenote{The secretary disavows
-any knowledge of this author's actions.}\\
+G.K.M. Tobin
        \affaddr{Institute for Clarity in Documentation}\\
        \affaddr{P.O. Box 1212}\\
        \affaddr{Dublin, Ohio 43017-6221}\\
        \email{webmaster@marysville-ohio.com}
 % 3rd. author
-\alignauthor Lars Th{\o}rv{\"a}ld\titlenote{This author is the
-one who did all the really hard work.}\\
+\alignauthor Lars Th{\o}rv{\"a}ld
        \affaddr{The Th{\o}rv{\"a}ld Group}\\
        \affaddr{1 Th{\o}rv{\"a}ld Circle}\\
        \affaddr{Hekla, Iceland}\\
        \email{larst@affiliation.org}
-\and  % use '\and' if you need 'another row' of author names
-% 4th. author
-\alignauthor Lawrence P. Leipuner\\
-       \affaddr{Brookhaven Laboratories}\\
-       \affaddr{Brookhaven National Lab}\\
-       \affaddr{P.O. Box 5000}\\
-       \email{lleipuner@researchlabs.org}
-% 5th. author
-\alignauthor Sean Fogarty\\
-       \affaddr{NASA Ames Research Center}\\
-       \affaddr{Moffett Field}\\
-       \affaddr{California 94035}\\
-       \email{fogartys@amesres.org}
-% 6th. author
-\alignauthor Charles Palmer\\
-       \affaddr{Palmer Research Laboratories}\\
-       \affaddr{8600 Datapoint Drive}\\
-       \affaddr{San Antonio, Texas 78229}\\
-       \email{cpalmer@prl.com}
+%\and  % use '\and' if you need 'another row' of author names
 }
 % There's nothing stopping you putting the seventh, eighth, etc.
 % author on the opening page (as the 'third row') but we ask,
 % for aesthetic reasons that you place these 'additional authors'
-% in the \additional authors block, viz.
-\additionalauthors{Additional authors: John Smith (The Th{\o}rv{\"a}ld Group,
-email: {\texttt{jsmith@affiliation.org}}) and Julius P.~Kumquat
-(The Kumquat Consortium, email: {\texttt{jpkumquat@consortium.net}}).}
-\date{30 July 1999}
+%% in the \additional authors block, viz.
+%\additionalauthors{Additional authors: John Smith (The Th{\o}rv{\"a}ld Group,
+%email: {\texttt{jsmith@affiliation.org}}) and Julius P.~Kumquat
+%(The Kumquat Consortium, email: {\texttt{jpkumquat@consortium.net}}).}
+%\date{30 July 1999}
 % Just remember to make sure that the TOTAL number of authors
 % is the number that will appear on the first page PLUS the
 % number that will appear in the \additionalauthors section.
@@ -161,7 +141,7 @@ email: {\texttt{jsmith@affiliation.org}}) and Julius P.~Kumquat
 \maketitle
 \begin{abstract}
  TODO Abstract
- TODO Catgory
+ TODO Category
  \end{abstract}
 
 % A category with the (minimum) three required fields
@@ -174,17 +154,128 @@ email: {\texttt{jsmith@affiliation.org}}) and Julius P.~Kumquat
 \keywords{ACM proceedings, \LaTeX, text tagging}
 
 \section{Introduction}
+TODO Last
 
 
-\section{The {\secit Body} of The Paper}
 
-\subsection{Type Changes and {\subsecit Special} Characters}
+\section{Experimental Setup}
 
-\subsection{Math Equations}
+\subsection{Version History Corpus}
 
-\subsection{Citations}
+\par To answer our research questions we gathered information about version numbering from (Number) both open source and proprietary projects. When selecting projects to add to the corpus we chose well established programs that serve a broad spectrum of purposes, such as development tools, operating systems, games, etc., so as not to limit our study to a single area. Our requirements for members of the corpus also included easily accessible version information as well as adequate documentation.
+\par When choosing open source projects we drew data from both Github and SourceForge because previous studies \cite{} have shown that git and svn, the backbone of Github and SourceForge respectively, are the most widely used version control systems. In addition to this, both systems facilitate access to projects and maintain rich stores of information about tags and version numbers. To retrieve the version history of each project we used the \texttt{git tag} and \texttt{svn list svn://svn.code.sf.net/p/\$project\_name/code/tags} commands and stored the output of each command for our analysis.
+\par We collected information for proprietary applications from both distributor and third party websites. We considered a combination of available release notes, documentation, and download archives to extract current and previous version numbers while consulting third party websites which consolidated information when version numbers were available, but scattered, such as across blog postings. If multiple sources were used after recording the version numbers from the sources separately, we merged the version numbers into a single set per artifact. During the merge we removed duplicate version numbers from between the sources, but did not remove duplications from within individual sets if they existed.
+\par Table \ref{} contains the names of the artifacts in our corpus in addition to some properties which we will later use in our analysis.
 
-\subsection{Tables}
+\subsection{Data Parsing}
+
+\par Version numbering patterns can vary between projects making comparison difficult. 
+To counter this tendency we created a version number structure to standardize version numbering patterns which allows us to parse corresponding versions that appear in different data sources. 
+This convention considers the version number divided into the following parts: prefix, first version compound, second version compound, third version compound, forth version compound, suffix label, and suffix number. 
+Additionally, our convention does not recognize the use of different delimiters between version compounds as unique.
+Examples of our version number parsing results can be found in Table \ref{table:exampleVCs}. 
+
+(Does this have to do with the parsing or the metrics?) Also we distinct between numeric version compounds and textual version compound. Numeric version compounds appear in Table \ref{table:exampleVCs} in bold.
+\par To process and analyze the collected version number data we wrote a script that breaks each entry apart according to our convention and allows for the use of '.' (period), '-' (dash), '\_'(underscore), or ' ' (space) as separators. 
+
+
+%TODO link to github!
+%TODO Editting stopped here
+
+\par In order to ensure that we covered most common patterns of version numbering that appear in the dataset, we created a test suite with common parsing scenarios (TODO: do we need to list common scenarios? ). Test cases can be found in github repository [LINK] of our project.  
+
+
+\par There are several ways of incrementing version numbers in cases when version numbers consist of more than one version compound. For example developer might think about two ways of incrementing version 1.0 if he or she needs to come up with version for next release. As far as most of the existing conventions describe [LINKS], first way is to assign version 1.1 to new release. Second way is to assign version 2.0. Note that second approach uses increment of first version compound instead of incrementing rightmost version compound. 
+
+\par In order to ensure that we covered most common patterns of version numbering that appear in the dataset, we created a test suite with common parsing scenarios (TODO: do we need to list common scenarios? ). Test cases can be found in github repository [LINK] of our project.  
+
+
+%\par Different projects use different version numbering practices. 
+%In order to standardize version numbering patterns to be able to parse corresponding versions that appear in different data sources, we have come up with a convention for version number structure. 
+%Convention includes following parts of version number: prefix, first version compound, second version compound, third version compound, fourth version compound, suffix label, suffix number. 
+%Script that parses version numbers allows for following separators between different version number compounds: '.' (period), '-' (dash), '\_'(underscore), ' ' (space). 
+%You can find examples of version number parsing results in Table \ref{table:exampleVCs}. Also we distinct between numeric version compounds and textual version compound. Numeric version compounds appear in Table \ref{table:exampleVCs} in bold.
+
+
+\begin{table*}[h]
+\resizebox{1.4\textwidth}{!}{\begin{minipage}{\textwidth}
+\begin{tabular}{| *{8}{l|}}
+\hline
+Version Number & Prefix & 1 VC & 2 VC & 3 VC & 4 VC  & Suffix Label & Suffix Number \\ \hline
+v\_3.4.5\_p34 & v\_ & 3 & 4 & 5 & & p & 34 \\
+R 2.11.1 RC & R & 2 & 11 & 1 & & RC & \\
+5.6.32.78 &  & 5 & 6 & 32 & 78 & & \\ \hline
+
+\end{tabular}
+\caption{Numeric version compounds are bolded. }
+\label{table:exampleVCs}
+\end{minipage} }
+\end{table*}
+
+\section{Metrics}
+
+
+In order to analyze degree of version numbers consistency among different software projects, we came up with a set of metrics that measure common features of version numbers sequences. Our script collects metrics by traversing list of version numbers pair by pair. Single value for each metric takes a pair of version numbers [$VN_{1}$, $VN_{2}$] to produce metric value. We collect following metrics:
+\begin{itemize}
+\item Number of increments (by 1) for each numeric version compound. For example, we consider it to be an increment of given numeric version compound for a pair of version numbers if value of numeric version compound changes from 1 to 2 or from 35 to 36, etc.
+
+\begin{equation}
+VC_{2} - VC_{1} = 1
+\end{equation}
+
+\item Jumps for each numeric version compound. We consider every change in numeric version compound to be a jump if difference between version compound values appear to be greater than 1. Examples: 1 to 3, 5 to 10. 
+
+\begin{equation}
+VC_{2} - VC_{1} > 1
+\end{equation}
+
+\end{itemize}
+
+We collect length of each jump for further analysis. For example list of jumps for third version compound for array of version numbers [1.0.2, 1.0.3, 1.0.5, 1.0.6, 1.0.7, 1.0.10] would be [2, 3]. 
+\begin{itemize}
+
+\item Number of empty jumps for each numeric version compound. We consider change of numeric version compound to be an empty jump if empty value substitutes numeric value of version compound. For example, there is an empty jump of fourth version compound for the pair of version numbers [1.0.2.4, 1.0.3].
+
+
+\begin{equation}
+\begin{split}
+isNumeric(VC_{1}) \&\& isEmpty(VC_{2})  || \\  isNumeric(VC_{2}) \&\& isEmpty(VC_{1})
+\end{split}
+\end{equation}
+
+\item Number of version placeholders for each numeric version compound. Sometimes version numbering patterns use special characters to represent set of version numbers instead of just one version number. For example, version number 1.x represents set of version numbers [1.0, 1.1, 1.2, $\dots$, 1.N]. As long as we found only one special character that some software projects use as a version placeholder ('x'), we count only for appearances of this character as version compound value. 
+\item Instances of Megalomania
+
+\end{itemize}
+
+There are several ways of incrementing version numbers in cases when version numbers consist of more than one version compound. For example developer might think about two ways of incrementing version 1.0 if he or she needs to come up with version for next release. As far as most of the existing conventions describe [LINKS], first way is to assign version 1.1 to new release. Second way is to assign version 2.0. Note that second approach uses increment of first version compound instead of incrementing rightmost version compound. 
+
+We consider this case of assigning next version number (incrementing version compounds on the left side instead of rightmost version compound) to be instance of megalomania. 
+
+In most general case, instances of megalomania include increment of version number than involves increment of other version compounds than the rightmost version compound.
+
+Other examples of megalomania: $$ 1.0.2 \rightarrow 2.0.0 \texttt{, } 1.4.5 \rightarrow 1.5.0 $$
+
+There are N-1 possible cases of assigning new version to the version number with N numeric version compounds. We distinct between different ways of assigning version numbers depending on position of incremented numeric version compound. 
+
+For example we consider change of version 1.0.0.0 to 2.0.0.0 to be megalomania of severity 3, change of version 1.0.4\_p34 to 1.1.0 to be megalomania of severity 2, etc. In most general case, we consider changing 1st numeric version compound in version with N numeric version compounds to be megalomania of severity N-1, 2nd numeric version compound in version with N numeric version compounds to be megalomania of severity N-2, and so on. 
+
+We collect information about megalomania severity as another metric. For example, list of megalomania severities for list of versions [1.0.0, 1.0.1, 1.0.2, 1.1.0, 1.1.1, 1.2.0, 1.2.1, 2.0.0] would be [1,1,2].
+
+We calculated metrics both for each version compound and aggregated values to represent metrics for  version number.
+
+
+\section{Analysis}
+
+\section{Implications}
+
+\section{Threats to Validity}
+
+\par The proprietary data may be incomplete because we only harvested information that the distributor chose to display online which could contribute to additional jumps for artifacts that were never made public. Conversely, enterprises may shield the general from the burden of intermediate builds by only displaying clean, sequential versions on their websites and in their documentation which could skew the results of our analysis.
+
+
+
+
 
 \section{Conclusions}
 
@@ -192,12 +283,6 @@ email: {\texttt{jsmith@affiliation.org}}) and Julius P.~Kumquat
 
 %ACKNOWLEDGMENTS are optional
 \section{Acknowledgments}
-This section is optional; it is a location for you
-to acknowledge grants, funding, editing assistance and
-what have you.  In the present case, for example, the
-authors would like to thank Gerald Murray of ACM for
-his help in codifying this \textit{Author's Guide}
-and the \textbf{.cls} and \textbf{.tex} files that it describes.
 
 %
 % The following two commands are all you need in the
