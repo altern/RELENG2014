@@ -2,3 +2,5 @@
 *.tar.gz
 *.swp
 *.DS_Store
+*.aux
+*.log
