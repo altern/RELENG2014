@@ -2,5 +2,9 @@
 *.tar.gz
 *.swp
 *.DS_Store
-*.aux
-*.log
+VersionPaper.aux
+VersionPaper.bbl
+VersionPaper.blg
+VersionPaper.log
+VersionPaper.synctex.gz
+macros.log
