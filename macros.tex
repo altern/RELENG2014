@@ -1,0 +1,138 @@
+% !TEX root =  ./VersionPaper.tex
+\usepackage[english]{babel}
+\usepackage{threeparttable}
+\usepackage{amssymb}
+\setcounter{tocdepth}{3}
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage{url}
+\usepackage{array}
+\usepackage{xspace}
+\usepackage{moreverb}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{cite}
+\usepackage{relsize}
+\usepackage{color}
+\usepackage{wasysym}
+\usepackage{fancybox}
+\usepackage{balance}
+\usepackage{enumitem}
+\usepackage{lmodern}
+%\usepackage{caption}
+\usepackage{epstopdf}
+\usepackage{amsmath}
+%\usepackage[font={bf}, labelfont=bf]{caption}
+%\usepackage[font={bf,small},labelfont=bf]{caption}
+\usepackage{datetime}
+%\captionsetup[table]{skip=5pt}
+
+\newcommand{\version}[1]{\normalsize{Version #1 - \mydate\today\xspace,\xspace\currenttime}}
+
+\newdateformat{mydate}{\monthname[\THEMONTH]\xspace\THEDAY}
+
+\newcommand{\fixme}[1]{\textcolor{red}{#1}}
+\newcommand{\TODO}[1]{\textcolor{magenta}{\textbf{TODO: }#1}}
+\newcommand{\feedback}[1]{\textcolor{magenta}{\textbf{ASK: }#1}}
+
+
+\newcommand{\ADD}[1]{\textbf{\textcolor{blue}{#1}}}
+\newcommand{\REMOVE}[1]{\textbf{\textcolor{red}{#1}}}
+
+\newcommand{\mybox}[1]{
+\begin{center}
+\setlength{\fboxsep}{5pt}%
+\Ovalbox{%
+\begin{minipage}{.45\textwidth}
+\begin{center}
+{\it #1} 
+\end{center}
+\end{minipage}}
+\end{center}
+}
+
+
+\lstdefinelanguage{CSharp}
+{
+sensitive=true,
+morekeywords=[1]{
+abstract, as, async, await, base, break, case,
+catch, checked, class, const, continue,
+default, delegate, do, else, enum,
+event, explicit, extern, false,
+finally, fixed, for, foreach, goto, if,
+implicit, in, interface, internal, is,
+lock, namespace, new, null, operator,
+out, override, params, private,
+protected, public, readonly, ref,
+return, sealed, sizeof, stackalloc,
+static, struct, switch, this, throw,
+true, try, typeof, unchecked, unsafe,
+using, virtual, volatile, while, bool,
+byte, char, decimal, double, float,
+int, lock, object, sbyte, short, string,
+uint, ulong, ushort, void},
+morecomment=[l]{//},
+morecomment=[s]{/*}{*/},
+morecomment=[l][keywordstyle4]{\#},
+morestring=[b]",
+morestring=[b]',
+}
+
+%\usepackage[labelfont=bf]{caption}
+%\DeclareCaptionFormat{listing}{\rule{\dimexpr\textwidth+17pt\relax}{0.4pt}\par\vskip1pt#1#2#3}
+%\captionsetup[lstlisting]{singlelinecheck=false, margin=0pt, font={sf},labelsep=space,labelfont=bf}
+%\renewcommand\lstlistingname{Code}
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+\lstset{ %
+%frame=bottom,
+  language=CSharp,                % the language of the code
+  basicstyle=\ttfamily\scriptsize,           % the size of the fonts that are used for the code
+  keywordstyle=\color{blue},
+  commentstyle=\color{mygreen},
+  numberstyle=\tiny\color{mygray}
+  stringstyle=\color{mymauve},
+  rulecolor=\color{black}, 
+  stepnumber=1,                   % the step between two line-numbers. If it's 1, each line 
+  %numbers=left,                   % where to put the line-numbers
+  numberstyle=\scriptsize,  
+  numbersep=5pt,  
+  showspaces=false,               % show spaces adding particular underscores
+  showstringspaces=false,         % underline spaces within strings
+  showtabs=false,                 % show tabs within strings adding particular underscores
+  tabsize=2,                      % sets default tabsize to 2 spaces
+  breaklines=false,                % sets automatic line breaking
+  breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+  belowskip=1pt,
+  aboveskip=2pt
+}
+
+
+\newcommand{\codesnippet}[1]{
+\begin{lstlisting}#1\end{lstlisting}}
+
+\newcommand{\readme}[1]{#1}
+
+\newcommand{\etal}{\emph{et~al}.~}
+\newcommand{\Comment}[1]{}%\textbf{\textsl{$\langle\!\langle$#1$\rangle\!\rangle$}}}
+\newcommand{\spacedinlineheader}[1]{\vspace{1.5 mm} \noindent \textbf{#1}}
+\newcommand{\Space}[1]{}
+
+
+\newcommand{\TotalNumProjects}{41\xspace}
+
+
+\newcommand{\code}[1]{\begin{small}\texttt{#1}\end{small}}
+\newcommand{\URL}[1]{\begin{footnotesize}\url{#1}\end{footnotesize}}
+
+\newcommand{\Analyzer}{\begin{small}\textsc{VersionAnalyzer}\end{small}\xspace}
+
+
+\newcommand{\RQOne}{\textbf{RQ1:} How do OSS vs. proprietary development affect version numbers?\xspace}
+
+\newcommand{\subParagraph}[1]{\textbf{\emph{#1}}}
+\newcommand{\MyParagraph}[1]{\noindent \textbf{#1}}
