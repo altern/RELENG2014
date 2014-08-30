@@ -127,13 +127,13 @@ R 2.11.1 RC & R & 2 & 11 & 1 & & RC & \\
 
 In order to analyze degree of version numbers consistency among different software projects, we came up with a set of metrics that measure common features of version numbers sequences. Our script collects metrics by traversing list of version numbers pair by pair. Single value for each metric takes a pair of version numbers [$VN_{1}$, $VN_{2}$] to produce metric value. We collect following metrics:
 \begin{itemize}
-\item Number of increments (by 1) for each numeric version compound. For example, we consider it to be an increment of given numeric version compound for a pair of version numbers if value of numeric version compound changes from 1 to 2 or from 35 to 36, etc.
+\item \textbf{Number of increments} (by 1) for each numeric version compound. For example, we consider it to be an increment of given numeric version compound for a pair of version numbers if value of numeric version compound changes from 1 to 2 or from 35 to 36, etc.
 
 \begin{equation}
 VC_{2} - VC_{1} = 1
 \end{equation}
 
-\item Jumps for each numeric version compound. We consider every change in numeric version compound to be a jump if difference between version compound values appear to be greater than 1. Examples: 1 to 3, 5 to 10. 
+\item \textbf{List of jumps} for each numeric version compound. We consider every change in numeric version compound to be a jump if difference between version compound values appear to be greater than 1. Examples: 1 to 3, 5 to 10. 
 
 \begin{equation}
 VC_{2} - VC_{1} > 1
@@ -144,7 +144,7 @@ VC_{2} - VC_{1} > 1
 We collect length of each jump for further analysis. For example list of jumps for third version compound for array of version numbers [1.0.2, 1.0.3, 1.0.5, 1.0.6, 1.0.7, 1.0.10] would be [2, 3]. 
 \begin{itemize}
 
-\item Number of empty jumps for each numeric version compound. We consider change of numeric version compound to be an empty jump if empty value substitutes numeric value of version compound. For example, there is an empty jump of fourth version compound for the pair of version numbers [1.0.2.4, 1.0.3].
+\item \textbf{Number of empty jumps} for each numeric version compound. We consider change of numeric version compound to be an empty jump if empty value substitutes numeric value of version compound. For example, there is an empty jump of fourth version compound for the pair of version numbers [1.0.2.4, 1.0.3].
 
 
 \begin{equation}
@@ -153,11 +153,8 @@ isNumeric(VC_{1}) \&\& isEmpty(VC_{2})  || \\  isNumeric(VC_{2}) \&\& isEmpty(VC
 \end{split}
 \end{equation}
 
-\item Number of version placeholders for each numeric version compound. Sometimes version numbering patterns use special characters to represent set of version numbers instead of just one version number. For example, version number 1.x represents set of version numbers [1.0, 1.1, 1.2, $\dots$, 1.N]. As long as we found only one special character that some software projects use as a version placeholder ('x'), we count only for appearances of this character as version compound value. 
-\item Instances of Megalomania
-
-\end{itemize}
-
+\item \textbf{Number of version placeholders} for each numeric version compound. Sometimes version numbering patterns use special characters to represent set of version numbers instead of just one version number. For example, version number 1.x represents set of version numbers [1.0, 1.1, 1.2, $\dots$, 1.N]. As long as we found only one special character that some software projects use as a version placeholder ('x'), we count only for appearances of this character as version compound value. 
+\item \textbf{Instances of Megalomania} for list of versions. 
 There are several ways of incrementing version numbers in cases when version numbers consist of more than one version compound. For example developer might think about two ways of incrementing version 1.0 if he or she needs to come up with version for next release. As far as most of the existing conventions describe [LINKS], first way is to assign version 1.1 to new release. Second way is to assign version 2.0. Note that second approach uses increment of first version compound instead of incrementing rightmost version compound. 
 
 We consider this case of assigning next version number (incrementing version compounds on the left side instead of rightmost version compound) to be instance of megalomania. 
@@ -173,9 +170,18 @@ For example we consider change of version 1.0.0.0 to 2.0.0.0 to be megalomania o
 We collect information about megalomania severity as another metric. For example, list of megalomania severities for list of versions [1.0.0, 1.0.1, 1.0.2, 1.1.0, 1.1.1, 1.2.0, 1.2.1, 2.0.0] would be [1,1,2].
 
 We calculated metrics both for each version compound and aggregated values to represent metrics for  version number.
-
+\end{itemize}
 
 \section{Analysis}
+
+\begin{itemize}
+\item RQ1: OSS vs Proprietary
+\item RQ2: Projects of different sizes
+\item RQ3: Age of different projects
+\item RQ4: Dev tools vs other applications
+\item RQ5: SDKs vs other applications 
+\end{itemize}
+
 
 \section{Implications}
 
