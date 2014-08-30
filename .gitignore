@@ -1,6 +1,7 @@
 *.pdf
 *.tar.gz
 *.swp
+*.log
 *.DS_Store
 
 VersionPaper.aux
