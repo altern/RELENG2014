@@ -128,21 +128,19 @@ Jumps represent inconsistencies in version numbering and can cause confusion.
 %\begin{itemize}
 \MyParagraph{\textbf{Number of jumps}}.  For each version compound of a project, this metric counts the total number of jumps across all versions. For example, in a project where one jump happens from version 1.0.25 to 1.0.28, and another jump happens from 1.0.34 to 1.0.40 will register as two jumps in the third version compound.\\
 
-\MyParagraph{\textbf{Length of jumps}}.  For each version compound of a project, this metric counts the sum of all sizes of jumps within that compound. 
+\MyParagraph{\textbf{Sum of jumps}}.  For each version compound of a project, this metric counts the sum of all sizes of jumps within that compound. 
 In the example above, the length of jump on the third version compound is 
-9 ( 3 + 6). Whereas the previous metric records whether jumps occurred, this metric records the severity of the jumps.
+9 ( 3 + 6). Whereas the previous metric records whether jumps occurred, this metric records the severity of the jumps. \\
  
- 
- \textbf{List of jumps.} We consider every change in numeric version compound to be a jump if difference between version compound values appear to be greater than 1. Examples: 1 to 3, 5 to 10. 
+\MyParagraph{\textbf{Average size of jumps}}. For each version compound of a project, this metric calculates average of  jump sizes within that compound. For the example above, the average jump size for the third version compound is 4.5 ( ( 3 + 6 ) / 2)
 
-\begin{equation}
-VC_{2} - VC_{1} > 1
-\end{equation}
+%\begin{equation}
+%VC_{2} - VC_{1} > 1
+%\end{equation}
 
 %\end{itemize}
 
 We collect length of each jump for further analysis. For example list of jumps for third version compound for array of version numbers [1.0.2, 1.0.3, 1.0.5, 1.0.6, 1.0.7, 1.0.10] would be [2, 3]. 
-
 
 \begin{itemize}
 
