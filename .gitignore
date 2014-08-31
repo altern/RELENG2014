@@ -3,15 +3,9 @@
 *.swp
 *.log
 *.DS_Store
-
 VersionPaper.aux
-
 VersionPaper.bbl
-
 VersionPaper.blg
-
 VersionPaper.log
-
 VersionPaper.synctex.gz
-
 macros.log
