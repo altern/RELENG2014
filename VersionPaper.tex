@@ -117,23 +117,33 @@ R 2.11.1 RC & R & 2 & 11 & 1 & & RC & \\
 \section{Metrics}
 
 
-In order to analyze degree of version numbers consistency among different software projects, we came up with a set of metrics that measure common features of version numbers sequences. Our script collects metrics by traversing list of version numbers pair by pair. Single value for each metric takes a pair of version numbers [$VN_{1}$, $VN_{2}$] to produce metric value. We collect following metrics:
-\begin{itemize}
-\item \textbf{Number of increments} (by 1) for each numeric version compound. For example, we consider it to be an increment of given numeric version compound for a pair of version numbers if value of numeric version compound changes from 1 to 2 or from 35 to 36, etc.
+In order to analyze the degree of inconsistency in version numbers, we define 
+a set of metrics that measure common features of version numbers sequences: 
+ 
+\TODO{Use the Latex command for definition:} A jump is defined by two consecutively released versions when a version compound increases by more than one.
+For example, one project where version 1.0.25 is followed immediately by version 1.0.28 represents one jump in the third version compound. This jump's size is 3.
 
-\begin{equation}
-VC_{2} - VC_{1} = 1
-\end{equation}
+Jumps represent inconsistencies in version numbering and can cause confusion.
+ 
+%\begin{itemize}
+\MyParagraph{\textbf{Number of jumps}}.  For each version compound of a project, this metric counts the total number of jumps across all versions. For example, in a project where one jump happens from version 1.0.25 to 1.0.28, and another jump happens from 1.0.34 to 1.0.40 will register as two jumps in the third version compound.\\
 
-\item \textbf{List of jumps} for each numeric version compound. We consider every change in numeric version compound to be a jump if difference between version compound values appear to be greater than 1. Examples: 1 to 3, 5 to 10. 
+\MyParagraph{\textbf{Length of jumps}}.  For each version compound of a project, this metric counts the sum of all sizes of jumps within that compound. 
+In the example above, the length of jump on the third version compound is 
+9 ( 3 + 6). Whereas the previous metric records whether jumps occurred, this metric records the severity of the jumps.
+ 
+ 
+ \textbf{List of jumps.} We consider every change in numeric version compound to be a jump if difference between version compound values appear to be greater than 1. Examples: 1 to 3, 5 to 10. 
 
 \begin{equation}
 VC_{2} - VC_{1} > 1
 \end{equation}
 
-\end{itemize}
+%\end{itemize}
 
 We collect length of each jump for further analysis. For example list of jumps for third version compound for array of version numbers [1.0.2, 1.0.3, 1.0.5, 1.0.6, 1.0.7, 1.0.10] would be [2, 3]. 
+
+
 \begin{itemize}
 
 \item \textbf{Number of empty jumps} for each numeric version compound. We consider change of numeric version compound to be an empty jump if empty value substitutes numeric value of version compound. For example, there is an empty jump of fourth version compound for the pair of version numbers [1.0.2.4, 1.0.3].
@@ -146,8 +156,9 @@ isNumeric(VC_{2}) \&\& isEmpty(VC_{1})
 \end{split}
 \end{equation}
 
-\item \textbf{Number of version placeholders} for each numeric version compound. Sometimes version numbering patterns use special characters to represent set of version numbers instead of just one version number. For example, version number 1.x represents set of version numbers [1.0, 1.1, 1.2, $\dots$, 1.N]. As long as we found only one special character that some software projects use as a version placeholder ('x'), we count only for appearances of this character as version compound value. 
-\item \textbf{Instances of Megalomania} for list of versions. 
+ \textbf{Number of version placeholders} for each numeric version compound. Sometimes version numbering patterns use special characters to represent set of version numbers instead of just one version number. For example, version number 1.x represents set of version numbers [1.0, 1.1, 1.2, $\dots$, 1.N]. As long as we found only one special character that some software projects use as a version placeholder ('x'), we count only for appearances of this character as version compound value. 
+ 
+ \textbf{Instances of Megalomania} for list of versions. 
 There are several ways of incrementing version numbers in cases when version numbers consist of more than one version compound. For example developer might think about two ways of incrementing version 1.0 if he or she needs to come up with version for next release. As far as most of the existing conventions describe [LINKS], first way is to assign version 1.1 to new release. Second way is to assign version 2.0. Note that second approach uses increment of first version compound instead of incrementing rightmost version compound. 
 
 We consider this case of assigning next version number (incrementing version compounds on the left side instead of rightmost version compound) to be instance of megalomania. 
@@ -164,6 +175,9 @@ We collect information about megalomania severity as another metric. For example
 
 We calculated metrics both for each version compound and aggregated values to represent metrics for  version number.
 \end{itemize}
+
+\TODO{Make the next paragraph flow with the rest}
+Our script collects metrics by traversing list of version numbers pair by pair. Single value for each metric takes a pair of version numbers [$VN_{1}$, $VN_{2}$] to produce metric value.
 
 \section{Analysis}
 
