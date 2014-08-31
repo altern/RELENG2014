@@ -1,31 +1,29 @@
-%
-% For tracking purposes - this is V2.0 - May 2012
+\documentclass[conference]{IEEEtran}
 
-\documentclass{sig-alternate}
+\hyphenation{op-tical net-works semi-conduc-tor}
 
 \input{macros}
 
 \begin{document}
-%
-% --- Author Metadata here ---
-\conferenceinfo{ICSE '14}{City , Town Country}
-%\CopyrightYear{2007} % Allows default copyright year (20XX) to be over-ridden - IF NEED BE.
-%\crdata{0-12345-67-8/90/01}  % Allows default copyright data (0-89791-88-6/97/05) to be over-ridden - IF NEED BE.
-% --- End of Author Metadata ---
 
 \title{A study on version number practices}
 
-\numberofauthors{1} %  in this sample file, there are a *total*
-% of EIGHT authors. SIX appear on the 'first-page' (for formatting
-% reasons) and the remaining two appear in the \additionalauthors section.
-%
-\author{
-% 1st. author
-\alignauthor
-Sergii Shmarkatiuk, Kendall Bailey, Danny Dig\\
-       \affaddr{Oregon State University}\\
-       \email{\{shmarkas,baileken,digd\}@eecs.oregonstate.edu}
-}
+\author{\IEEEauthorblockN{Sergii Shmarkatiuk, 
+Kendall Bailey and
+Danny Dig
+}}
+
+%\numberofauthors{1} %  in this sample file, there are a *total*
+%% of EIGHT authors. SIX appear on the 'first-page' (for formatting
+%% reasons) and the remaining two appear in the \additionalauthors section.
+%%
+%\author{
+%% 1st. author
+%\alignauthor
+%Sergii Shmarkatiuk, Kendall Bailey, Danny Dig\\
+%       \affaddr{Oregon State University}\\
+%       \email{\{shmarkas,baileken,digd\}@eecs.oregonstate.edu}
+%}
 
 \maketitle
 \begin{abstract}
@@ -33,14 +31,8 @@ Sergii Shmarkatiuk, Kendall Bailey, Danny Dig\\
  TODO Category
  \end{abstract}
 
-% A category with the (minimum) three required fields
-\category{H.4}{Information Systems Applications}{Miscellaneous}
-%A category including the fourth, optional field follows...
-\category{D.2.8}{Software Engineering}{Metrics}[complexity measures, performance measures]
 
-\terms{Theory}
-
-\keywords{ACM proceedings, \LaTeX, text tagging}
+\IEEEpeerreviewmaketitle
 
 \section{Introduction}
 TODO Last
@@ -125,39 +117,48 @@ R 2.11.1 RC & R & 2 & 11 & 1 & & RC & \\
 \section{Metrics}
 
 
-In order to analyze degree of version numbers consistency among different software projects, we came up with a set of metrics that measure common features of version numbers sequences. Our script collects metrics by traversing list of version numbers pair by pair. Single value for each metric takes a pair of version numbers [$VN_{1}$, $VN_{2}$] to produce metric value. We collect following metrics:
-\begin{itemize}
-\item Number of increments (by 1) for each numeric version compound. For example, we consider it to be an increment of given numeric version compound for a pair of version numbers if value of numeric version compound changes from 1 to 2 or from 35 to 36, etc.
+In order to analyze the degree of inconsistency in version numbers, we define 
+a set of metrics that measure common features of version numbers sequences: 
+ 
+\TODO{Use the Latex command for definition:} A jump is defined by two consecutively released versions when a version compound increases by more than one.
+For example, one project where version 1.0.25 is followed immediately by version 1.0.28 represents one jump in the third version compound. This jump's size is 3.
 
-\begin{equation}
-VC_{2} - VC_{1} = 1
-\end{equation}
+Jumps represent inconsistencies in version numbering and can cause confusion.
+ 
+%\begin{itemize}
+\MyParagraph{\textbf{Number of jumps}}.  For each version compound of a project, this metric counts the total number of jumps across all versions. For example, in a project where one jump happens from version 1.0.25 to 1.0.28, and another jump happens from 1.0.34 to 1.0.40 will register as two jumps in the third version compound.\\
 
-\item Jumps for each numeric version compound. We consider every change in numeric version compound to be a jump if difference between version compound values appear to be greater than 1. Examples: 1 to 3, 5 to 10. 
+\MyParagraph{\textbf{Length of jumps}}.  For each version compound of a project, this metric counts the sum of all sizes of jumps within that compound. 
+In the example above, the length of jump on the third version compound is 
+9 ( 3 + 6). Whereas the previous metric records whether jumps occurred, this metric records the severity of the jumps.
+ 
+ 
+ \textbf{List of jumps.} We consider every change in numeric version compound to be a jump if difference between version compound values appear to be greater than 1. Examples: 1 to 3, 5 to 10. 
 
 \begin{equation}
 VC_{2} - VC_{1} > 1
 \end{equation}
 
-\end{itemize}
+%\end{itemize}
 
 We collect length of each jump for further analysis. For example list of jumps for third version compound for array of version numbers [1.0.2, 1.0.3, 1.0.5, 1.0.6, 1.0.7, 1.0.10] would be [2, 3]. 
+
+
 \begin{itemize}
 
-\item Number of empty jumps for each numeric version compound. We consider change of numeric version compound to be an empty jump if empty value substitutes numeric value of version compound. For example, there is an empty jump of fourth version compound for the pair of version numbers [1.0.2.4, 1.0.3].
+\item \textbf{Number of empty jumps} for each numeric version compound. We consider change of numeric version compound to be an empty jump if empty value substitutes numeric value of version compound. For example, there is an empty jump of fourth version compound for the pair of version numbers [1.0.2.4, 1.0.3].
 
 
 \begin{equation}
 \begin{split}
-isNumeric(VC_{1}) \&\& isEmpty(VC_{2})  || \\  isNumeric(VC_{2}) \&\& isEmpty(VC_{1})
+isNumeric(VC_{1}) \&\& isEmpty(VC_{2})  || \\  
+isNumeric(VC_{2}) \&\& isEmpty(VC_{1})
 \end{split}
 \end{equation}
 
-\item Number of version placeholders for each numeric version compound. Sometimes version numbering patterns use special characters to represent set of version numbers instead of just one version number. For example, version number 1.x represents set of version numbers [1.0, 1.1, 1.2, $\dots$, 1.N]. As long as we found only one special character that some software projects use as a version placeholder ('x'), we count only for appearances of this character as version compound value. 
-\item Instances of Megalomania
-
-\end{itemize}
-
+ \textbf{Number of version placeholders} for each numeric version compound. Sometimes version numbering patterns use special characters to represent set of version numbers instead of just one version number. For example, version number 1.x represents set of version numbers [1.0, 1.1, 1.2, $\dots$, 1.N]. As long as we found only one special character that some software projects use as a version placeholder ('x'), we count only for appearances of this character as version compound value. 
+ 
+ \textbf{Instances of Megalomania} for list of versions. 
 There are several ways of incrementing version numbers in cases when version numbers consist of more than one version compound. For example developer might think about two ways of incrementing version 1.0 if he or she needs to come up with version for next release. As far as most of the existing conventions describe [LINKS], first way is to assign version 1.1 to new release. Second way is to assign version 2.0. Note that second approach uses increment of first version compound instead of incrementing rightmost version compound. 
 
 We consider this case of assigning next version number (incrementing version compounds on the left side instead of rightmost version compound) to be instance of megalomania. 
@@ -173,15 +174,27 @@ For example we consider change of version 1.0.0.0 to 2.0.0.0 to be megalomania o
 We collect information about megalomania severity as another metric. For example, list of megalomania severities for list of versions [1.0.0, 1.0.1, 1.0.2, 1.1.0, 1.1.1, 1.2.0, 1.2.1, 2.0.0] would be [1,1,2].
 
 We calculated metrics both for each version compound and aggregated values to represent metrics for  version number.
+\end{itemize}
 
+\TODO{Make the next paragraph flow with the rest}
+Our script collects metrics by traversing list of version numbers pair by pair. Single value for each metric takes a pair of version numbers [$VN_{1}$, $VN_{2}$] to produce metric value.
 
 \section{Analysis}
+
+\begin{itemize}
+\item RQ1: OSS vs Proprietary
+\item RQ2: Projects of different sizes
+\item RQ3: Age of different projects
+\item RQ4: Dev tools vs other applications
+\item RQ5: SDKs vs other applications 
+\end{itemize}
+
 
 \section{Implications}
 
 \section{Threats to Validity}
 
-\par The proprietary data may be incomplete because we only harvested information that the distributor chose to display online which could contribute to additional jumps for artifacts that were never made public. Conversely, enterprises may shield the general from the burden of intermediate builds by only displaying clean, sequential versions on their websites and in their documentation which could skew the results of our analysis.
+ The proprietary data may be incomplete because we only harvested information that the distributor chose to display online which could contribute to additional jumps for artifacts that were never made public. Conversely, enterprises may shield the general from the burden of intermediate builds by only displaying clean, sequential versions on their websites and in their documentation which could skew the results of our analysis.
 
 
 
@@ -189,71 +202,16 @@ We calculated metrics both for each version compound and aggregated values to re
 
 \section{Conclusions}
 
-%\end{document}  % This is where a 'short' article might terminate
 
-%ACKNOWLEDGMENTS are optional
-\section{Acknowledgments}
+\section*{Acknowledgments}
+
+The authors would like to thank...
 
 %
 % The following two commands are all you need in the
 % initial runs of your .tex file to
 % produce the bibliography for the citations in your paper.
-\bibliographystyle{abbrv}
-\bibliography{sigproc}  % sigproc.bib is the name of the Bibliography in this case
-% You must have a proper ".bib" file
-%  and remember to run:
-% latex bibtex latex latex
-% to resolve all references
-%
-% ACM needs 'a single self-contained file'!
-%
-%APPENDICES are optional
-%\balancecolumns
-%\appendix
-%%Appendix A
-%\section{Headings in Appendices}
-%The rules about hierarchical headings discussed above for
-%the body of the article are different in the appendices.
-%In the \textbf{appendix} environment, the command
-%\textbf{section} is used to
-%indicate the start of each Appendix, with alphabetic order
-%designation (i.e. the first is A, the second B, etc.) and
-%a title (if you include one).  So, if you need
-%hierarchical structure
-%\textit{within} an Appendix, start with \textbf{subsection} as the
-%highest level. Here is an outline of the body of this
-%document in Appendix-appropriate form:
-%\subsection{Introduction}
-%\subsection{The Body of the Paper}
-%\subsubsection{Type Changes and  Special Characters}
-%\subsubsection{Math Equations}
-%\paragraph{Inline (In-text) Equations}
-%\paragraph{Display Equations}
-%\subsubsection{Citations}
-%\subsubsection{Tables}
-%\subsubsection{Figures}
-%\subsubsection{Theorem-like Constructs}
-%\subsubsection*{A Caveat for the \TeX\ Expert}
-%\subsection{Conclusions}
-%\subsection{Acknowledgments}
-%\subsection{Additional Authors}
-%This section is inserted by \LaTeX; you do not insert it.
-%You just add the names and information in the
-%\texttt{{\char'134}additionalauthors} command at the start
-%of the document.
-%\subsection{References}
-%Generated by bibtex from your ~.bib file.  Run latex,
-%then bibtex, then latex twice (to resolve references)
-%to create the ~.bbl file.  Insert that ~.bbl file into
-%the .tex source file and comment out
-%the command \texttt{{\char'134}thebibliography}.
-%% This next section command marks the start of
-%% Appendix B, and does not continue the present hierarchy
-%\section{More Help for the Hardy}
-%The sig-alternate.cls file itself is chock-full of succinct
-%and helpful comments.  If you consider yourself a moderately
-%experienced to expert user of \LaTeX, you may find reading
-%it useful but please remember not to change it.
-%\balancecolumns % GM June 2007
-% That's all folks!
+\bibliographystyle{IEEEtran}
+\bibliography{bibliography}  % sigproc.bib is the name of the Bibliography in this case
+
 \end{document}
