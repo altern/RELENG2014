@@ -3,6 +3,7 @@
 \hyphenation{op-tical net-works semi-conduc-tor}
 
 \input{macros}
+\usepackage{dirtree}
 
 \begin{document}
 
@@ -158,10 +159,16 @@ We distinguish between different degrees (severities) of inconsistency depending
 \TODO{Why these are valid examples and the state of the practice}
 In Example 3 and 4 the inclusion of building on older versions stems from the need to support older versions of software for users that are unable or unwilling to use the latest release.
 
+We construct version number trees based on version number lists by dividing the lists into groups of version numbers for easier visual recognition of existing patterns. 
+The groups are determined by how many zeros are to the right of the last non-zero version compound and are organized by the farthest right non-zero version compound. 
+We organize these groups into a tree structure to represent the potential for simultaneous releases of both old versions and the latest version, as described in Example 3 and 4. Diagram \ref{diaExamples} contains examples of mapping from a list of version numbers to a tree of version numbers.
+
+
 \TODO{Explain \# choices, then introduce metatrees}
 
 In looking at ideal examples of the state of the practice, we were able to identify a cause for an increase in the \choices based on the list of existing versions. 
 As a result we developed an abstraction called a metatree. The concept of a metatree allows us to calculate the \choices for an arbitrary list of existing versions.
+
 We construct metatree from version sets. We represent the list of versions 1.0, 1.1, 1.2, $\dots$, 1.N and the list of versions 2.0, 2.1, $\dots$, 2.N as version sets 1.x and 2.x, respectively. 
 This can be expanded to include additional version compounds. 
 For example 1.x.x represents the set of version sets 1.0.x (including 1.0.0, 1.0.1, 1.0.2, $\dots$, 1.0.N), 1.1.x (including 1.1.0, 1.1.1, 1.1.2, $\dots$, 1.1.N),  $\dots$, 1.M.x (including 1.M.0, 1.M.1, 1.M.2, $\dots$, 1.M.N). As shown in Diagram \ref{diaVersionSet}.
@@ -169,17 +176,71 @@ Finally, x.x.x represents the super set of version sets in the above example, in
 \TODO{Version Set Diagram}
 Using our version set notation, we establish parent-child relationships between different version sets. For example, version set 1.x.x is the parent to version sets 1.0.x, 1.1.x, $\dots$, 1.M.x.  Similarly we consider x.x.x to be the parent for version sets 1.x.x, 2.x.x, $\dots$, K.x.x.  
 
-We construct metatrees using the parent-child relationships of the version sets. 
+\begin{table}
+\begin{tabular}{c c c }
+Example 1 & Example 2 & Example 3 \\
+\begin{minipage}{.3\columnwidth}
+\dirtree{%
+.1 x.x.
+.2 1.x.
+.2 2.x.
+}  
+\end{minipage} &
+\begin{minipage}{.3\columnwidth}
+\dirtree{%
+.1 x.x.x.
+.2 1.x.x.
+.3 1.0.x.
+.2 2.x.x.
+}  
+\end{minipage} &
+\begin{minipage}{.3\columnwidth}
+\dirtree{%
+.1 x.x.x.
+.2 1.x.x.
+.3 1.0.x.
+.3 1.1.x.
+.2 2.x.x.
+.2 3.x.x.
+}  
+\end{minipage} 
+\end{tabular}
+\caption{Examples of metatrees}
+\label{tabMetatrees}
+\end{table}
+
+We construct metatrees using the parent-child relationships of the version sets.
+\TODO{Fix this sentence} We construct metatrees to extract essential information about existing patterns in version number trees. 
+Table \ref{tabMetatrees} contains examples of valid metatrees.
+This information includes (1) values of version compounds that are common for a set of version numbers, (2) implicitly considers the unique values of version compounds, represented by the placeholder 'x', and (3) preserves the number of version compounds present in the version numbers. 
+
+In order to extract essential information from version number lists into version number patterns we consolidate version numbers into a single version set based on common values of version compounds.
+For example, we consolidate both version numbers 2.0.1 and 2.0.2 to the single version set 2.0.x because the common part of the two version numbers is 2.0.
+ Likewise, we consolidate version numbers 3.1.0, 3.5.0, and 3.2.3 into version set 3.x.x because the common part of the three version numbers is 3.
+
+ In a metatree, the root is the superset of version sets and represents all possible version numbers with the same number of version compounds.
+
+
+%We put version numbers from the lists of version numbers in groups for easier visual recognition of patterns. 
+%The groups are determined by how many zeros are to the right of the last non-zero version compound and are organized by the farthest right non-zero version compound. 
+%We organize these groups into a tree structure to represent the potential for simultaneous releases of both old versions and the latest version, as described in Example 3 and 4. Diagram \ref{diaExamples} contains examples of mapping from a list of version numbers to a tree of version numbers.
+
+
+
+
 \TODO{MetaTrees Diagram (one for each of the 4 examples before)}
+
+
 
 %In this case we consider set of versions 1.x (1.0, 1.1, 1.2) and 2.x (2.0, 2.1) to be "locked in" because one of the choices for new version numbers is unavailable.
 
 In order to analyze the degree of inconsistency in version numbers, we define 
 a set of metrics that measure common features of version numbers sequences. Different metrics establish typical cases that introduce additional choices for version numbering. 
  
+ 
  \TODO{How to determine the number of choices}
  
- \TODO{END OF DAY: 1. Version history to metatree mapping. 2. Explain throwing away the latest metatree nodes and why and how metatrees affect choices. 3. Explain placeholder. 4. explanation of metrics in terms of metatrees. 5. Party like its 1999. }
+ \TODO{END OF DAY: 0. 1. Version history to metatree mapping. 2. Explain throwing away the latest metatree nodes and why and how metatrees affect choices. 3. Explain placeholder. 4. explanation of metrics in terms of metatrees. 5. Party like its 1999. }
  
 \TODO{Use the Latex command for definition:} A jump is defined by two consecutively released versions when a version compound increases by more than one.
 For example, one project where version 1.0.25 is followed immediately by version 1.0.28 represents one jump in the third version compound. This jump's size is 3.
