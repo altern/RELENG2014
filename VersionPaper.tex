@@ -142,7 +142,7 @@ Thus, a simple change of version number might lead to confusion and misunderstan
 
 \TODO{To summarize, inconsistent version numbers have potential to break assumptions about established software development processes. }
 
-We define the severity of inconsistency as the \choices that are available for a 
+We define the severity of inconsistency as the \numberchoices that are available for a 
 given project. The following examples illustrate scenarios of version numbering that strictly adhere to the current state of the practice, described in 
 Section~\ref{sec:Practice}.\\
 
@@ -185,12 +185,21 @@ Version number trees are trees where the parent nodes are version numbers with t
 Figure~\ref{fig:diaExamples} shows the version trees for the lists of versions from Examples 1--4.
 
 % how we construct version trees
-We construct version number trees from version number lists by dividing the lists into groups of version numbers. 
-\TODO{Explain how to go from lists --$\rangle$ trees} \\
+%First we create nodes of the version numbers from the lists that have the highest number of trailing zeros. 
+To construct a version tree from an existing version number list we perform the following operations.
+First we traverse a version number list to find the version numbers with the highest number of trailing zeros.
+Once we have found the version numbers with the highest number of trailing zeros, we add them to the version tree as parent nodes.
+Then we find all the version numbers that have one less trailing zero and attach them as a child node to a parent node that has the same values of leading version compounds.
+We repeat the previous step until we have traversed all elements in the version number list and added them to our version number tree.
+
+
+%\TODO{Explain how to go from lists --$\rangle$ trees} \\
+
+
 
 \MyParagraph{Version Number MetaTrees}
 % why metatrees
-Examples 1--4 show that there are several choices for assigning the next version numbers. To be able to represent compactly and to compute the \choices for an arbitrary list of existing versions, we introduce a new abstraction called a \emph{metatree}. 
+Examples 1--4 show that there are several choices for assigning the next version numbers. To be able to represent compactly and to compute the \numberchoices for an arbitrary list of existing versions, we introduce a new abstraction called a \emph{metatree}. 
 
 %\TODO{This paragraph is confusing-- rephrase}. Metatrees include information about (1) values of version compounds that are common for a set of version numbers, (2) implicitly considers the unique values of version compounds, represented by the placeholder 'x', and (3) preserves the number of version compounds present in the version numbers. 
 
@@ -251,7 +260,53 @@ Table \ref{tabMetatrees} contains examples of valid metatrees.
 We construct metatrees using the parent-child relationships of the version sets.
 Figure~\ref{fig:diaExamples} shows the metatrees for the lists of versions from Examples 1--4. 
 
+\feedback{Number steps???}
+To construct a metatree from an existing version number list we perform the following operations.
+First we identify all of the version sets that exist within a version number list and put them in a list of version sets.
+For example the version number 1.2.3.4 belongs to the version sets 1.x.x.x, 1.2.x.x, and 1.2.3.x. 
+A version number belongs to a version set if it has common leading version compound values.
+When we form the version sets, we account for the possibility that a version number can be placed in multiple version sets and can add up to one less than the number of version compounds per version number.
+\feedback{help us}
 
+Then we add the superset of version sets as the root node for the metatree.
+Next we traverse a version set list to find the version numbers with the highest number of placeholders.
+Once we have found the version sets with the highest number of placeholders, we add them to the metatree as children of the root.
+Then we find all the version sets that have one less placeholder and attach them as a child node to a parent node that has the same values of leading version compounds.
+We repeat the previous step until we have traversed all elements in the version set list and added them to our metatree.
+
+%\TODO{1. Explain how to see number of choices, 2. explain how metatrees show this, 2a. Explain throwing away the most recent}
+
+We  created metatrees to help us calculate the \numberchoices which are difficult to compute when only looking at a version number list or a version number tree.
+
+In Example 1, a software team's existing versions are 1.0, 1.1, 1.2 with the two choices 1.3 and 2.0 for the next release. As Figure~\ref{fig:diaExamples} shows, we can extract two version sets from the existing list of version numbers: x.x and 1.x. The version set 1.x accounts for the choice to change from 1.2 to 1.3 because both have a 1 as a leading version compound. The version set x.x accounts for the change from 1.0 to 2.0 because the two version numbers have similar structure, but no common version compounds.
+
+% The first such property is \textbf{number of version compounds}. 
+
+In Example 2, a software team working on a project with existing versions 1.0.0, 1.0.1, 1.0.2 with the three choices 1.0.3, 1.1.0, or 2.0.0. 
+As Figure~\ref{fig:diaExamples} shows, we can extract three version sets from the existing list of version numbers: x.x.x,1.x.x, and 1.0.x. 
+The version set 1.0.x accounts for the change from 1.0.2 to 1.0.3 because both version numbers have common values for the first two version compounds. 
+The version set 1.x.x accounts for the choice to change from 1.0.0 to 1.1.0 because both have a 1 as a leading version compound. 
+The version set x.x.x accounts for the change from 1.0.0 to 2.0.0 because the two version numbers have similar structure, but no common version compounds.
+
+
+%Second property that defines number of possible choices for new version numbers is \textbf{number of "locked in" versions}. 
+
+In Example 3, a software team's project has the existing versions 1.0, 1.1, 1.2, 2.0, 2.1, 3.0. The team has the four choices 1.3, 2.2, 3.1, and 4.0 
+As Figure~\ref{fig:diaExamples} shows, we can extract three version sets from the existing list of version numbers: x.x, 1.x, 2.x, and 3.x. 
+The version set 1.x accounts for the change from 1.2 to 1.3, the version set 2.x accounts for the change from 2.1 to 2.2, and the version set 3.x accounts for the change from 3.0 to 3.1 because the version numbers have common values for the first version compounds. 
+The version set x.x accounts for the change from 3.0 to 4.0 because the two version numbers have similar structure, but no common version compounds.
+
+
+In Example 4, a software team's project has the existing versions 1.0.0, 1.0.1, 1.0.2, 2.0.0, 2.1.0, 3.0.0.
+ The team has the eight choices 1.0.3, 1.1.0, 2.0.1, 2.1.1, 2.2.0, 3.0.1, 3.1.0, 4.0.0 for the next assigned version number. 
+As Figure~\ref{fig:diaExamples} shows, we can extract eight version sets from the existing list of version numbers: x.x.x, 1.x.x, 1.0.x, 2.x.x, 2.0.x, 2.1.x, 3.x.x, and 3.0.x. 
+The version set 1.0.x accounts for the change from 1.0.2 to 1.0.3, the version set 2.0.x accounts for the change from 2.0.1 to 2.0.2, and the version set 3.0.x accounts for the change from 3.0.0 to 3.0.1 because the version numbers have common values for the first version compounds. 
+The version set 1.x.x accounts for the change from 1.0.0 to 1.1.0, the version set 2.x.x accounts for the change from 2.0.0 to 2.1.0, and the version set 3.x.x accounts for the change from 3.0.0 to 3.1.0 because the version numbers have common values for the first two version compounds. 
+The version set x.x.x accounts for the change from 3.0.0 to 4.0.0 because the two version numbers have similar structure, but no common version compounds.
+
+As you can see from the four examples above, the \numberchoices is equal to the number nodes in a metatree.
+
+ 
 %In order to extract essential information from version number lists into version number patterns we consolidate version numbers into a single version set based on common values of version compounds.
 %For example, we consolidate both version numbers 2.0.1 and 2.0.2 to the single version set 2.0.x because the common part of the two version numbers is 2.0.
 % Likewise, we consolidate version numbers 3.1.0, 3.5.0, and 3.2.3 into version set 3.x.x because the common part of the three version numbers is 3.
@@ -261,11 +316,89 @@ Figure~\ref{fig:diaExamples} shows the metatrees for the lists of versions from 
 %We put version numbers from the lists of version numbers in groups for easier visual recognition of patterns. 
 %The groups are determined by how many zeros are to the right of the last non-zero version compound and are organized by the farthest right non-zero version compound. 
 %We organize these groups into a tree structure to represent the potential for simultaneous releases of both old versions and the latest version, as described in Example 3 and 4. Diagram \ref{diaExamples} contains examples of mapping from a list of version numbers to a tree of version numbers.
-
+ 
 
 
 
 \TODO{MetaTrees Diagram (one for each of the 4 examples before)}
+
+\begin{table*}[\textwidth]
+%main figure table
+\begin{tabular}[.4\textwidth]{c c}
+	%example 1 table
+	\begin{tabular}{*{3}{p{2cm} }}
+		\multicolumn{3}{c}{Example 1} \\
+		List of Version Numbers & Version Number Tree & Version Number Metatree \\
+			%list of versions table 
+			\begin{tabular}{l}
+				1.0 \\
+				1.1 \\
+				1.2 \\
+			\end{tabular} &
+			
+%			1.0 &
+%		 \multirow{4}{*}{\begin{minipage}{.2\textwidth} %multi row for the version number tree
+			\dirtree{%
+			.1 1.0.
+			.2 1.1.
+			.2 1.2.
+			}  
+%		\end{minipage}  
+		%}  &
+		&
+%		\multirow{3}{*}{\begin{minipage}{.2\textwidth} %multirow for the meta tree
+		\dirtree{%
+			.1 x.x.
+			.2 1.x.
+		%	}
+%		\end{minipage} 
+		} 
+%		
+%		\\ 1.1 \\ 1.2 \\
+	\end{tabular}
+	 &
+	 %Example 2 Figure
+	\begin{tabular}[.4\textwidth]{c c}
+	%example 1 table
+	\begin{tabular}{*{3}{p{2cm} }}
+		\multicolumn{3}{c}{Example 3} \\
+		List of Version Numbers & Version Number Tree & Version Number Metatree \\
+			%list of versions table 
+			\begin{tabular}{l}
+				1.0 \\
+				1.1 \\
+			 	2.0 \\
+				2.1 \\
+				3.0 \\
+			\end{tabular} &
+			
+%			1.0 &
+%		 \multirow{4}{*}{\begin{minipage}{.2\textwidth} %multi row for the version number tree
+			\dirtree{%
+			.1 1.0.
+			.2 1.1.
+			.1 2.0.
+			.2 2.1.
+			.1 3.0.
+			}  
+%		\end{minipage}  
+		%}  &
+		&
+%		\multirow{3}{*}{\begin{minipage}{.2\textwidth} %multirow for the meta tree
+		\dirtree{%
+			.1 x.x.
+			.2 1.x.
+			.2 2.x.
+		%	}
+%		\end{minipage} 
+		} 
+	\end{tabular}	 
+	\end{tabular}
+\end{tabular}
+\caption{Examples of metatrees}
+\label{fig:list2Trees2Metatrees}
+\end{table*}
+
 
 
 
@@ -275,9 +408,9 @@ In order to analyze the degree of inconsistency in version numbers, we define
 a set of metrics that measure common features of version numbers sequences. Different metrics establish typical cases that introduce additional choices for version numbering. 
  
  
- \TODO{How to determine the number of choices}
+ %T\TODO{How to determine the number of choices}
  
- \TODO{END OF DAY: 0. 1. Version history to metatree mapping. 2. Explain throwing away the latest metatree nodes and why and how metatrees affect choices. 3. Explain placeholder. 4. explanation of metrics in terms of metatrees. 5. Party like its 1999. }
+ %\TODO{END OF DAY: 0. 1. Check Version history to metatree mapping. 2. Explain throwing away the latest metatree nodes and why and how metatrees affect choices. 3. Check Explain placeholder. 4. explanation of metrics in terms of metatrees. 5. Party like its 1999. }
  
 \TODO{Use the Latex command for definition:} A jump is defined by two consecutively released versions when a version compound increases by more than one.
 For example, one project where version 1.0.25 is followed immediately by version 1.0.28 represents one jump in the third version compound. This jump's size is 3.
