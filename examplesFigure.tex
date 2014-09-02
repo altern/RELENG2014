@@ -1,0 +1,211 @@
+\begin{table*}[\textwidth]
+%main figure table
+\begin{tabular}[.4\textwidth]{c c} \hline
+	%example 1 table
+	Example 1 & Example 2 \\ \hline
+	\begin{tabular}{*{3}{p{2cm} }}
+
+%		\multicolumn{3}{c}{Example 1} \\
+		List of Version Numbers & Version Number Tree & Version Number Metatree \\
+			\center
+			%list of versions table 
+			\begin{tabular}{l}
+				\figvn{1.0} \\
+				\figvn{1.1} \\
+				\figvn{1.2} \\
+				\figchoice{1.3} \\
+				\figchoice{2.0}\\
+			\end{tabular}
+					&
+	
+%			1.0 &
+%		 \multirow{4}{*}{\begin{minipage}{.2\textwidth} %multi row for the version number tree
+			\dirtree{%
+			.1 \figvn{1.0}.
+			.2 \figvn{1.1}.
+			.2 \figvn{1.2}.
+			.2 \figchoice{1.3}.
+			.1 \figchoice{2.0}.
+			}  
+%		\end{minipage}  
+		%}  &
+		&
+%		\multirow{3}{*}{\begin{minipage}{.2\textwidth} %multirow for the meta tree
+		\dirtree{%
+			.1 x.x.
+			.2 1.x.
+		%	}
+%		\end{minipage} 
+		}  \\
+%		
+%		\\ 1.1 \\ 1.2 \\
+%	\multicolumn{3}{c}{Number of Choices: 2} \\
+	\end{tabular} 
+	
+	% End Example 1
+
+	 &
+	 
+	 	\begin{tabular}[.4\textwidth]{c c}
+	%example 2 table
+	\begin{tabular}{*{3}{p{2cm} }}
+%		\multicolumn{3}{c}{Example 2} \\
+		List of Version Numbers & Version Number Tree & Version Number Metatree \\
+			%list of versions table 
+		\center
+			\begin{tabular}{l}
+				\figvn{1.0.0} \\
+				\figvn{1.0.1} \\
+			 	\figvn{1.0.2} \\
+				\figchoice{1.0.3} \\
+				\figchoice{1.1.0} \\
+				\figchoice{2.0.0} \\
+			\end{tabular} &
+			
+%			1.0 &
+%		 \multirow{4}{*}{\begin{minipage}{.2\textwidth} %multi row for the version number tree
+			\dirtree{%
+			.1 \figvn{1.0.0}.
+			.3 \figvn{1.0.1}.
+			.3 \figvn{1.0.2}.
+			.3 \figchoice{1.0.3}.
+			.2 \figchoice{1.1.0}.
+			.1 \figchoice{2.0.0}.
+			}  
+%		\end{minipage}  
+		%}  &
+		&
+%		\multirow{3}{*}{\begin{minipage}{.2\textwidth} %multirow for the meta tree
+		\dirtree{%
+			.1 x.x.x.
+			.2 1.x.x.
+			.3 1.0.x.
+		%	}
+%		\end{minipage} 
+		} \\
+%			\multicolumn{3}{c}{Number of Choices: 3} \\
+	\end{tabular}	 
+	
+	\end{tabular} %end Example 2 
+	\\ 
+	Number of Choices: 2 & Number of Choices 3 \\
+	\\ \hline
+	Example 3 & Example 4 \\ \hline
+	 %Example 3 Figure
+	\begin{tabular}[.4\textwidth]{c c}
+	%example 3 table
+	\begin{tabular}{*{3}{p{2cm} }}
+%		\multicolumn{3}{c}{Example 3} \\
+		List of Version Numbers & Version Number Tree & Version Number Metatree \\
+			%list of versions table 
+			\center
+			
+			\begin{tabular}{l}
+				\figvn{1.0} \\
+				\figvn{1.1} \\
+				\figchoice{1.2}\\
+			 	\figvn{2.0} \\
+				\figvn{2.1} \\
+				\figchoice{2.2} \\
+				\figvn{3.0} \\
+				\figchoice{3.1}\\
+				\figchoice{4.0}\\
+			\end{tabular} &
+			
+%			1.0 &
+%		 \multirow{4}{*}{\begin{minipage}{.2\textwidth} %multi row for the version number tree
+			\dirtree{%
+			.1 \figvn{1.0}.
+			.2 \figvn{1.1}.
+			.2 \figchoice{1.2}.
+			.1 \figvn{2.0}.
+			.2 \figvn{2.1}.
+			.2 \figchoice{2.2}.
+			.1 \figvn{3.0}.
+			.2 \figchoice{3.1}.
+			.1 \figchoice{4.0}.
+			}  
+%		\end{minipage}  
+		%}  &
+		&
+%		\multirow{3}{*}{\begin{minipage}{.2\textwidth} %multirow for the meta tree
+		\dirtree{%
+			.1 x.x.
+			.2 1.x.
+			.2 2.x.
+			.2 3.x.
+		%	}
+%		\end{minipage} 
+		} 
+	\end{tabular}	 
+	\end{tabular} %end Example 3
+	
+	& 
+		 %Example 4 Figure
+	\begin{tabular}[.4\textwidth]{c c}
+	%example 3 table
+	\begin{tabular}{ *{3}{ p{2cm}} }
+%		\multicolumn{3}{ c }{Example 4} \\
+		List of Version Numbers & Version Number Tree & Version Number Metatree \\ 
+					%list of versions table 
+			\center
+			 \begin{tabular}{l}
+				\figvn{1.0.0} \\
+				\figvn{1.0.1} \\
+				\figvn{1.0.2} \\
+				\figchoice{1.0.3} \\	
+				\figchoice{1.1.0} \\
+			 	\figvn{2.0.0} \\
+				\figchoice{2.0.1} \\
+				\figvn{2.1.0}\\
+				\figchoice{2.1.1} \\
+				\figchoice{2.2.0} \\
+				\figvn{3.0.0} \\
+				\figchoice{3.0.1} \\
+				\figchoice{3.1.0} \\
+				\figchoice{4.0.0} \\
+			\end{tabular} 
+	
+			&
+	
+%			1.0 &
+%		 \multirow{4}{*}{\begin{minipage}{.2\textwidth} %multi row for the version number tree
+			\dirtree{%
+			.1 \figvn{1.0.0}.
+			.3 \figvn{1.0.1}.
+			.3 \figvn{1.0.2}.
+			.3 \figchoice{1.0.3}.
+			.2 \figchoice{1.1.0}.
+			.1 \figvn{2.0.0}.
+			.3 \figchoice{2.0.1}.
+			.2 \figvn{2.1.0}.
+			.3 \figchoice{2.1.1}.
+			.2 \figchoice{2.2.0}.
+			.1 \figvn{3.0.0}.
+			.3 \figchoice{3.0.1}.
+			.2 \figchoice{3.1.0}.
+			.1 \figchoice{4.0.0}.
+			}  
+%		\end{minipage}  
+		%}  &
+		&
+%		\multirow{3}{*}{\begin{minipage}{.2\textwidth} %multirow for the meta tree
+		\dirtree{%
+			.1 x.x.x.
+			.2 1.x.x.
+			.3 1.0.x.
+			.2 2.x.x.
+			.3 2.0.x.
+			.3 2.1.x.
+			.2 3.x.x.
+			.3 3.0.x.
+		%	}
+%		\end{minipage} 
+		} 
+	\end{tabular} \\
+	\end{tabular}  \\ %end Example 4 \
+		Number of Choices : 4 & Number of Choices: 8 \\
+\end{tabular}
+\caption{Examples of metatrees. The bolded version numbers are the existing version numbers for the example projects and the italicized version numbers are the \choices.}
+\label{fig:list2Trees2Metatrees}
+\end{table*}
