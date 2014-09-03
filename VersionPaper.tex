@@ -5,6 +5,7 @@
 \input{macros}
 \usepackage{dirtree}
 \usepackage{tabularx}
+\usepackage{adjustbox}
 
 \begin{document}
 
@@ -77,14 +78,9 @@ our parsing.
  
  \begin{table*}[t]
  \begin{center}
-\begin{tabular}{| *{8}{l|}}
-\hline
-Version Number & Prefix & 1 VC & 2 VC & 3 VC & 4 VC  & Suffix Label & Suffix Number \\ \hline
-v\_3.4.5\_p34 & v\_ & 3 & 4 & 5 & & p & 34 \\
-R 2.11.1 RC & R & 2 & 11 & 1 & & RC & \\
-5.6.32.78 &  & 5 & 6 & 32 & 78 & & \\ \hline
-
-\end{tabular}
+ \begin{adjustbox}{width=\textwidth}
+\input{figVersionSplit.tex}
+\end{adjustbox}
 \end{center}
 \caption{Numeric version compounds are bolded. }
 \label{table:exampleVCs}
@@ -124,6 +120,14 @@ MINOR version when you add functionality in a backwards-compatible manner, and
 PATCH version when you make backwards-compatible bug fixes.
 Additional labels for pre-release and build metadata are available as extensions to the MAJOR.MINOR.PATCH format.
 
+\TODO{Apple versioning}
+\TODO{Something with the date versioning}
+
+The GNU version numbering scheme dictates that each release should contain a major and a minor version as the first and second version compounds and claims that additional version compounds are probably unnecessary\cite{GNUVersionNumbering}.
+Apache Portable Runtime projects outlines its version number scheme to have three integer version compounds, the first version compound representing the major version, the second the minor version, and the third the patch level.
+Additionally, Apache Portable Runtime project consider versions that contain a zero as the first version compound as a special case where incrementing version numbers does communicate consistent information about the changes in the project \cite{ApacheVersionNumbering}.
+Microsoft's scheme for version numbering consists of four version compounds representing the major version, the minor versions, the build number, and the revision \cite{MSVersionNumbering}.
+
 \section{Metrics}
 
 %{Why inconsistency is bad? Because it breaks existing assumptions.} 
@@ -141,13 +145,13 @@ Increasing a version compound on the left such as from 1.2 to 2.0 usually indica
 Thus, a simple change of version number might lead to confusion and misunderstanding between members of a software team.
 %This is a simple example of ..... 
 
-\TODO{To summarize, inconsistent version numbers have potential to break assumptions about established software development processes. }
+To summarize, inconsistent version numbers have potential to break assumptions about established software development processes.
 
 We define the severity of inconsistency as the \numberchoices that are available for a 
 given project. The following examples illustrate scenarios of version numbering that strictly adhere to the current state of the practice, described in 
 Section~\ref{sec:Practice}.\\
 
-\TODO{Example Diagram}
+%\TODO{Example Diagram}
 
 \MyParagraph{Example 1} A software team working on a project with existing versions 1.0, 1.1, 1.2 has two possible choices of assigning a new version number to the upcoming release: 1.3 or 2.0. 
 In this example, the software development team is using only two version compounds. \\
@@ -171,11 +175,15 @@ In this case, the software team has the option to use three version compounds an
 
 \TODO{rename the labels of examples so that they are revealing the essence of the example -- this will be easier for the reader on later pages to remember the example}
 
-\TODO{can you find a real example to illustrate the scenarios above}
+%\TODO{can you find a real example to illustrate the scenarios above}
 
-\TODO{Why these are valid examples and the state of the practice}
+%\TODO{Why these are valid examples and the state of the practice}
 
-In Examples 3 and 4 the option of building on older versions stems from the need to support users that are unable or unwilling to use the latest release.\\
+In Examples 3 and 4 the option of building on older versions stems from the need to support users that are unable or unwilling to use the latest release.
+In our corpus the necessity to support older versions is not uncommon. 
+For example, Adobe Flash Player uses different version numbers to distinguish between versions of their software that run on different operating systems such that version number 14.0.0.176 runs on Mac OS X and \TODO{get Version number for windows} runs on Windows OS.
+Flash Player version numbers also indicate which version of an operating system supports Flash Player, version 10.1.102.64 is supported on Mac OS X 10.4 and version 10.3.183.90 is supported on Mac OS X 10.5.
+\\
 
 \MyParagraph{Version Number Trees}
 % why version trees
@@ -191,7 +199,7 @@ To construct a version tree from an existing version number list we perform the 
 First we traverse a version number list to find the version numbers with the highest number of trailing zeros.
 Once we have found the version numbers with the highest number of trailing zeros, we add them to the version tree as parent nodes.
 Then we find all the version numbers that have one less trailing zero and attach them as a child node to a parent node that has the same values of leading version compounds.
-We repeat the previous step until we have traversed all elements in the version number list and added them to our version number tree.
+We repeat the previous step until we have traversed all elements in the version number list and added them to our version number tree. \\
 
 
 %\TODO{Explain how to go from lists --$\rangle$ trees} \\
@@ -204,56 +212,46 @@ Examples 1--4 show that there are several choices for assigning the next version
 
 %\TODO{This paragraph is confusing-- rephrase}. Metatrees include information about (1) values of version compounds that are common for a set of version numbers, (2) implicitly considers the unique values of version compounds, represented by the placeholder 'x', and (3) preserves the number of version compounds present in the version numbers. 
 
+
+\begin{figure}
+\begin{center}
+ %\begin{adjustbox}%{width=.4\textwidth,height=\height}
+\input{figVersionSets.tex}
+%\end{adjustbox}
+\end{center}
+\caption{Relationships between version sets and version numbers}
+\label{fig:diaVersionSet}
+\end{figure}
+
 % what are metatrees
 In order to define metatrees, we first define \emph{version sets}.
 A version set represents a list of versions that have common leading version compound values. For example, the list of versions 1.0, 1.1, 1.2, $\dots$, 1.N 
 form the version set 1.x, where ``x'' is a placeholder.
 This representation can be expanded to include additional version compounds. 
-For example the version set 1.x.x represents the set of version sets 1.0.x (including 1.0.0, 1.0.1, 1.0.2, $\dots$, 1.0.N), 1.1.x (including 1.1.0, 1.1.1, 1.1.2, $\dots$, 1.1.N),  $\dots$, 1.M.x (including 1.M.0, 1.M.1, 1.M.2, $\dots$, 1.M.N). As shown in Diagram \ref{diaVersionSet}.
+For example the version set 1.x.x represents the set of version sets 1.0.x (including 1.0.0, 1.0.1, 1.0.2, $\dots$, 1.0.N), 1.1.x (including 1.1.0, 1.1.1, 1.1.2, $\dots$, 1.1.N),  $\dots$, 1.M.x (including 1.M.0, 1.M.1, 1.M.2, $\dots$, 1.M.N). As shown in Figure~\ref{fig:diaVersionSet}.
 
 Finally, x.x.x represents the super set of version sets in the above example, including sets of version sets 1.x.x, 2.x.x, $\dots$, K.x.x.
 In a metatree, the root is the superset of version sets and represents all possible version numbers with the same number of version compounds.
 
 
-\TODO{Version Set Diagram}
+%\TODO{Version Set Diagram}
 
 
 
 Version number metatrees are trees where the parent nodes are version sets with trailing placeholders. A child node is a version set that has common leading version compound values with its parent, and at least one less trailing placeholder than its parent. For example, version set 1.x.x is the parent to version sets 1.0.x, 1.1.x, $\dots$, 1.M.x.  Similarly, x.x.x is the parent of version sets 1.x.x, 2.x.x, $\dots$, K.x.x.  
-Table \ref{tabMetatrees} contains examples of valid metatrees.
+Figure~\ref{fig:validMetatrees} contains examples of valid metatrees.
+
+\begin{figure}
+\begin{center}
+ %\begin{adjustbox}%{width=.4\textwidth,height=\height}
+\input{figvalidMetatrees.tex}
+%\end{adjustbox}
+\end{center}
+\caption{Examples of valid metatrees}
+\label{fig:validMetatrees}
+\end{figure}
 
 
-\begin{table}
-\begin{tabular}{c c c }
-\begin{minipage}{.3\columnwidth}
-\dirtree{%
-.1 x.x.
-.2 1.x.
-.2 2.x.
-}  
-\end{minipage} &
-\begin{minipage}{.3\columnwidth}
-\dirtree{%
-.1 x.x.x.
-.2 1.x.x.
-.3 1.0.x.
-.2 2.x.x.
-}  
-\end{minipage} &
-\begin{minipage}{.3\columnwidth}
-\dirtree{%
-.1 x.x.x.
-.2 1.x.x.
-.3 1.0.x.
-.3 1.1.x.
-.2 2.x.x.
-.2 3.x.x.
-}  
-\end{minipage} 
-\end{tabular}
-\caption{Examples of metatrees}
-\label{tabMetatrees}
-\end{table}
 
 
 % how we construct metatrees
@@ -269,6 +267,15 @@ A version number belongs to a version set if it has common leading version compo
 When we form the version sets, we account for the possibility that a version number can be placed in multiple version sets and can add up to one less than the number of version compounds per version number.
 \feedback{help us}
 
+\begin{figure*}
+ \begin{adjustbox}{max width=\textwidth}
+\input{examplesFigure.tex}
+\end{adjustbox}
+\caption{Examples of metatrees. The bolded version numbers are the existing version numbers for the example projects and the italicized version numbers are the \choices.}
+\label{fig:diaExamples}
+\end{figure*}
+
+
 Then we add the superset of version sets as the root node for the metatree.
 Next we traverse a version set list to find the version numbers with the highest number of placeholders.
 Once we have found the version sets with the highest number of placeholders, we add them to the metatree as children of the root.
@@ -280,6 +287,7 @@ We repeat the previous step until we have traversed all elements in the version 
 We  created metatrees to help us calculate the \numberchoices which are difficult to compute when only looking at a version number list or a version number tree.
 
 In Example 1, a software team's existing versions are 1.0, 1.1, 1.2 with the two choices 1.3 and 2.0 for the next release. As Figure~\ref{fig:diaExamples} shows, we can extract two version sets from the existing list of version numbers: x.x and 1.x. The version set 1.x accounts for the choice to change from 1.2 to 1.3 because both have a 1 as a leading version compound. The version set x.x accounts for the change from 1.0 to 2.0 because the two version numbers have similar structure, but no common version compounds.
+
 
 % The first such property is \textbf{number of version compounds}. 
 
@@ -321,14 +329,10 @@ As you can see from the four examples above, the \numberchoices is equal to the 
 
 
 
-\TODO{MetaTrees Diagram (one for each of the 4 examples before)}
-
-\input{examplesFigure.tex}
+%\TODO{MetaTrees Diagram (one for each of the 4 examples before)}
 
 
 
-
-%In this case we consider set of versions 1.x (1.0, 1.1, 1.2) and 2.x (2.0, 2.1) to be "locked in" because one of the choices for new version numbers is unavailable.
 
 In order to analyze the degree of inconsistency in version numbers, we define 
 a set of metrics that measure common features of version numbers sequences. Different metrics establish typical cases that introduce additional choices for version numbering. \\
@@ -366,8 +370,9 @@ Using the sum of the jumps and the total number of jumps, we calculate the total
 
  
 \MyParagraph{\textbf{Average size of jumps}}. For each version compound of a project, this metric calculates average of  jump sizes within that compound. 
-For the example above, the average jump size for the third version compound is 4.5 ( $\frac{ 3 + 6 }{2}$).
-The average size of jumps represents the average \numberchoices introduced by each jump.
+For the example above, the average jump size for the third version compound is 4.5 ($\frac{ 3 + 6 }{2}$).
+The average size of jumps represents the average \numberchoices introduced by each jump. 
+\\
 
  
  %\textbf{List of jumps.} We consider every change in numeric version compound to be a jump if difference between version compound values appear to be greater than 1. Examples: 1 to 3, 5 to 10. 
@@ -492,8 +497,20 @@ What: We are showing that the inconsistencies caused by empty jumps can be repre
 Why to show that we can predict inconsistencies caused by empty jumps
 How: We represent empty jumps as the union of two metatrees. 
 For example, there is a project where one jump happens from version 1.0 to 1.0.0. 
-\TODO{Figure}
-Figure~\ref{fig:empty2VC} shows the metatree for each versions' individual metatree and the union of both trees. \\
+
+
+\begin{figure}
+\begin{center}
+ \begin{adjustbox}{width=.5\textwidth}
+\input{figEmptyJumpMeta.tex}
+\end{adjustbox}
+\end{center}
+\caption{Representations of empty jumps as metatrees}
+\label{fig:emptyJumpMeta}
+\end{figure}
+
+%\TODO{Figure}
+Figure~\ref{fig:emptyJumpMeta} shows the metatree for each versions' individual metatree and the union of both trees. \\
 
 \MyParagraph{Megalomania and Metatrees}
 What:  We are showing that the inconsistencies caused by megalomania can be represented by operations on metatrees.
