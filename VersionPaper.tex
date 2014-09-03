@@ -129,6 +129,7 @@ Additionally, Apache Portable Runtime project consider versions that contain a z
 Microsoft's scheme for version numbering consists of four version compounds representing the major version, the minor versions, the build number, and the revision \cite{MSVersionNumbering}.
 
 \section{Metrics}
+\TODO{Aggregated metrics}
 
 %{Why inconsistency is bad? Because it breaks existing assumptions.} 
 We define inconsistency in software version numbering as an availability of choices for assigning new version number that breaks existing version numbering patterns. 
@@ -206,7 +207,7 @@ We repeat the previous step until we have traversed all elements in the version 
 
 
 
-\MyParagraph{Version Number MetaTrees}
+\MyParagraph{Version Number Metatrees}
 % why metatrees
 Examples 1--4 show that there are several choices for assigning the next version numbers. To be able to represent compactly and to compute the \numberchoices for an arbitrary list of existing versions, we introduce a new abstraction called a \emph{metatree}. 
 
@@ -292,7 +293,7 @@ In Example 1, a software team's existing versions are 1.0, 1.1, 1.2 with the two
 % The first such property is \textbf{number of version compounds}. 
 
 In Example 2, a software team working on a project with existing versions 1.0.0, 1.0.1, 1.0.2 with the three choices 1.0.3, 1.1.0, or 2.0.0. 
-As Figure~\ref{fig:diaExamples} shows, we can extract three version sets from the existing list of version numbers: x.x.x,1.x.x, and 1.0.x. 
+As Figure~\ref{fig:diaExamples} shows, we can extract three version sets from the existing list of version numbers: x.x.x, 1.x.x, and 1.0.x. 
 The version set 1.0.x accounts for the change from 1.0.2 to 1.0.3 because both version numbers have common values for the first two version compounds. 
 The version set 1.x.x accounts for the choice to change from 1.0.0 to 1.1.0 because both have a 1 as a leading version compound. 
 The version set x.x.x accounts for the change from 1.0.0 to 2.0.0 because the two version numbers have similar structure, but no common version compounds.
@@ -343,7 +344,9 @@ a set of metrics that measure common features of version numbers sequences. Diff
  %\TODO{END OF DAY: 0. 1. Check Version history to metatree mapping. 2. Explain throwing away the latest metatree nodes and why and how metatrees affect choices. 3. Check Explain placeholder. 4. explanation of metrics in terms of metatrees. 5. Party like its 1999. }
  
 \MyParagraph{Jumps}. A \emph{jump} is defined by two consecutively released versions when a version compound increases by more than one.
-For example, one project where version 1.0.25 is followed immediately by version 1.0.28 represents one jump in the third version compound. This jump's size is 3. Jumps introduce more \choices which indicate more inconsistencies in version number. 
+For example, one project where version 1.0.25 is followed immediately by version 1.0.28 represents one jump in the third version compound. 
+%This jump's size is 3.
+Jumps introduce more \choices which indicate more inconsistencies in version numbering. 
 Jumps can introduce immediate and implicit choices.
 
 An \emph{immediate choice} is a \choice that can result from incrementing an existing version number by one. 
@@ -354,25 +357,45 @@ In the example above, version number choice 1.0.26 and the new version number ch
 %Jumps represent inconsistencies in version numbering and can cause confusion.
  
 %\begin{itemize}
-\MyParagraph{\textbf{Number of jumps}}.  For each version compound of a project, this metric counts the total number of jumps across all versions. For example, in a project where one jump happens from version 1.0.25 to 1.0.28, and another jump happens from 1.0.34 to 1.0.40 will register as two jumps in the third version compound.
-We collect the number of jumps it indicates the frequency that the problem of jumping version numbers arises. 
+\MyParagraph{\textbf{Number of jumps}}.   For each version compound of a project, this metric counts the total number of jumps for each version number. 
+ For example, in a project where one jump happens from version 1.0.25 to 1.0.28, and another jump happens from 1.0.34 to 1.0.40 will register as two jumps in the third version compound.
+We collect the number of jumps because it indicates the frequency that the problem of jumping version numbers arises. 
 The number of jumps also indicates the number of immediate choices introduced by jumps.\\
 
-\MyParagraph{\textbf{Sum of jumps}}.  For each version compound of a project, this metric counts the sum of all sizes of jumps within that compound. 
-In the example above, the length of jump on the third version compound is 
-9 ( 3 + 6). Whereas the previous metric records whether jumps occurred, this metric records the severity of the jumps. 
-The sum of the size of all jumps can be used to calculate the \numberchoices that have been added as a result of jumping.
-For example, in the project above the jump from version 1.0.25 to 1.0.28 introduces the immediate choice 1.0.29 in addition to an implicit version choice, 1.0.27, for a total of two extra \choices.
+\MyParagraph{\textbf{Severity of a jump}}.  For each version compound of a project, this metric counts the number of immediate choices introduced by jumps for all version numbers in the versions number list. 
+For example, in the project above the jump from version 1.0.25 to 1.0.28 introduces the immediate choice 1.0.29 in addition to an implicit version choice, 1.0.27.
+In the jump from version number 1.0.34 to 1.0.40 in the above example one immediate choice (1.0.41) is added and four implicit choices are added.
+In the example above, the severity of jumps on the third version compound is 
+2 (1 + 1).
+% Whereas the previous metric records whether jumps occurred, this metric records the severity of the jumps. 
+%The sum of the size of all jumps can be used to calculate the \numberchoices that have been added as a result of jumping.
 
-In the jump from version number 1.0.34 to 1.0.40 in the above example one immediate choice is added and four implicit choices are added for a total of five additional choices.
-Thus, the size of a jump relates to the number of additional choices as one less than the size of the jump.
-Using the sum of the jumps and the total number of jumps, we calculate the total \numberchoices as the sum of all jumps minus the number of jumps.\\
 
- 
-\MyParagraph{\textbf{Average size of jumps}}. For each version compound of a project, this metric calculates average of  jump sizes within that compound. 
+
+\begin{figure}
+ \begin{adjustbox}{max width=.5\textwidth}
+\input{figExVCJumps.tex}
+\end{adjustbox}
+\caption{Version compound location's affect on number of immediate choices. Existing version numbers appear bold, version choices appear italicized, implicit choices are surrounded by parenthesis, and immediate choices introduced by the jump are boxed. The farther left a jumped version compound is located the more immediate choices are introduced.}
+\label{fig:ExVCJumps}
+\end{figure}
+
+
+
+The position of the version compound that is involved in a jump also affects the \numberichoices. 
+For example, changing from version number 1.0.0 to 1.3.0 introduces one implicit choice, 1.2.0, and two immediate choices, 1.3.1 and 1.4.0. 
+Figure~\ref{fig:ExVCJumps} illustrates the additional choices introduced in the above jump in the second version compound compared to a similar jump in the third version compound using version numbers 1.0.0 and 1.0.3, which only introduces one immediate choice. 
+For the sake of simplicity, in our metrics we only count immediate jumps because implicit choices are not directly available, but can be reached by incrementing immediate choices.
+\feedback{Figure out how to do this with indexes?}Thus, the size the size of a jump relates to the number of additional immediate choices as the number version compounds that trail the version compound where the jump occurred plus one. 
+Thus, the size of a jump relates to the number of additional immediate choices as the index of the version compound, which increases from one right to left. \\
+%Using the sum of the jumps and the total number of jumps, we calculate the total \numberichoices as the sum of all jumps minus the number of jumps.\\
+
+  
+\MyParagraph{\textbf{Average severity of jumps}}. For each version compound of a project, this metric calculates average of  jump sizes within that compound. 
 For the example above, the average jump size for the third version compound is 4.5 ($\frac{ 3 + 6 }{2}$).
 The average size of jumps represents the average \numberchoices introduced by each jump. 
 \\
+ 
 
  
  %\textbf{List of jumps.} We consider every change in numeric version compound to be a jump if difference between version compound values appear to be greater than 1. Examples: 1 to 3, 5 to 10. 
@@ -385,31 +408,28 @@ The average size of jumps represents the average \numberchoices introduced by ea
 %We collect length of each jump for further analysis. For example list of jumps for third version compound for array of version numbers [1.0.2, 1.0.3, 1.0.5, 1.0.6, 1.0.7, 1.0.10] would be [2, 3]. 
 
 \MyParagraph{Empty Jumps}. An empty jump is defined by two consecutively released versions containing a different number of version compounds. 
-For example, one project where version 1.0.25 is followed immediately by version 1.1 represents an empty jump in third version compound, later in this project another empty jump happens from version 1.3 to 1.3.1. 
-We distinguish between adding or removing version compounds because shrinking or expanding the version number will have a different effect on the \numberchoices. 
-When removing version compounds, the \numberchoices increases by the number of version compound in the new version number. In the above example, shrinking the version number from 1.0.25 to 1.1 introduces three new \choices, 1.2 and 2.0 in addition to the existing \choices, 1.0.26, 1.1.0 and 2.0.0. 
-When expanding the version number to include additional version compounds, the \numberchoices also increases by the number of version compound in the new version number. In the above example, expanding the version number from 1.3 to 1.3.1 introduces three new \choices, 1.3.2, 1.4.0, and 2.0.0 in addition to the existing \choices, 1.4 and 2.0. \\
+For example, a project in which version 1.0.25 is followed immediately by version 1.1 represents an empty jump in third version compound, later in this project another empty jump occurs from version 1.3 to 1.3.1. 
+We distinguish between adding or removing version compounds because expanding or shrinking the version number will have a different effect on the \numberchoices. 
+When expanding the version number to include additional version compounds, the \numberchoices increases by the number of version compound in the new version number. In the above example, expanding the version number from 1.3 to 1.3.1 introduces three new \choices, 1.3.2, 1.4.0, and 2.0.0 in addition to the existing \choices, 1.4 and 2.0. 
+When removing version compounds, the \numberchoices also increases by the number of version compound in the new version number. In the above example, shrinking the version number from 1.0.25 to 1.1 introduces three new \choices, 1.2 and 2.0 in addition to the existing \choices, 1.0.26, 1.1.0 and 2.0.0. \\
 %We do not distinguish between adding or removing version compounds because either expanding or shrinking the version number demonstrates a lack of consistency. \TODO{address textual stuff?} \\
 
 %\begin{itemize}
 
-
-\MyParagraph{\textbf{Number of empty jumps}}.  For each version compound of a project, this metric counts the total number of empty jumps across all versions. For example, in a project where one jump happens from version 1.0 to 1.0.1, and another jump happens from 1.0.34 to 1.1 will register as two.
+%\TODO{Occurrence of Empty Jump}
+\MyParagraph{\textbf{Number of empty jumps}}.  
+This metric counts the total number of empty jumps for all version numbers in the versions number list. For example, in a project where one jump happens from version 1.0 to 1.0.1, and another jump happens from 1.0.34 to 1.1 will register as two occurrences of empty jumps.
+%For each version compound of a project, this metric counts the total number of empty jumps for all version numbers in the versions number list. For example, in a project where one jump happens from version 1.0 to 1.0.1, and another jump happens from 1.0.34 to 1.1 will register as two.
 We do not collect the number of version compounds added or removed in this metric.
 We collect the number of empty jumps because they indicate the frequency that the problem of empty jumping in version numbers arises. \\
 
-\MyParagraph{\textbf{Sum of the severity of empty jumps}}.  For each time an empty jump occurs, this metric counts the total number of version compound that have been added for removed from the version number list. 
-Each time an empty jump occurs we compute the severity of the empty jump as the number version compounds present in the second version number of the empty jump.
-In the example above the severity of the empty jump from version number 1.0 to version number 1.0.1 is three.
-Similarly, the severity of the empty jump from version number 1.0.34 to version number 1.1 is two.
-Therefore, the sum of the severities for both empty jumps is five.
-We use the sum of all empty jumps to calculate the total \numberchoices introduced due to empty jumps. \\
-
- 
-\MyParagraph{\textbf{Average size of severity}}. 
-This metric calculates average \numberchoices introduced all empty jumps in the version number list. For the example above, the average \numberchoices introduced by all empty jumps is 2.5 ( $\frac{ 2 + 3}{2}$).
- \\
-
+%\TODO{Fix this}
+% \MyParagraph{Severity of empty jumps}.  
+%This metric counts the number of unique occurrences of empty jumps that deviate from the original number of version compounds. 
+%Each time a unique empty jump occurs we compute the severity of the empty jump as the number version compounds present in the second version number of the empty jump.
+%In the example above the severity of the empty jump from version number 1.0 to version number 1.0.1 is three.
+%However, in the same project we discard the severity of the empty jump from version number 1.0.34 to version number 1.1 because the choice to select 1.1 is still a valid \choice from the previously encountered version 1.0.
+%\\
 
 
 
@@ -433,7 +453,7 @@ This metric calculates average \numberchoices introduced all empty jumps in the 
 %\end{equation}
 
  
-\MyParagraph{\textbf{Instances of Megalomania}}. Megalomania is defined as electing to increment a version compound to the left of the rightmost version compound when assigning the next version number.
+\MyParagraph{\textbf{Megalomania}}. Megalomania is defined as electing to increment a version compound to the left of the rightmost version compound when assigning the next version number.
 For example a developer might think about two ways of incrementing version 1.0 if he or she needs to come up with a version number for the next release.
  As far as most of the existing conventions describe [LINKS], first way is to assign version 1.1 to new release. Second way is to assign version 2.0. Note that second approach uses increment of first version compound instead of incrementing rightmost version compound, this is an example of megalomania. 
 
@@ -463,23 +483,16 @@ Here, choosing either version number 1.1.0 or version number 2.0.0 would result 
 %\end{itemize}
 
 \MyParagraph{\textbf{Number of instances of megalomania}}.  
-This metric counts the total number of instances of megalomania across all versions in a version number list.
+For each version compound of a project, this metric counts the total number of instances of megalomania for all version numbers in the versions number list. 
+%This metric counts the total number of instances of megalomania in each version compound across all versions in a version number list.
 For example, in a project where version numbers increase from version 1.0.1 to 2.0.0, and later from 2.0.25 to 2.1.0 will register as two instances of megalomania.
-We collect the number of instances of megalomania because they indicate the frequency that the problem. \\
+We collect the number of instances of megalomania because they indicate the frequency of the problem. \\
 
-\MyParagraph{\textbf{Sum of the severity of megalomania}}.  
+\TODO{Here}
+\MyParagraph{Severity of Megalomania}
 Notice that there is a difference between change from 1.0.0 to 1.1.0 and change from 1.0.0 to 2.0.0. 
 The change from 1.0.0 to 1.1.0 introduces one additional \choice while the change from 1.0.0 to 2.0.0 introduces two more \choices.
 We use this to define the severity of megalomania as the \numberextrachoices introduced by instance of megalomania.
-\feedback{i hate this sentence} We take the sum of the severities of megalomania for every instance encountered in  the version number list.
-In the example above, the sum of the severities of megalomania is 3 (1 + 2).
-We use the sum of all instances of megalomania to calculate the total \numberchoices introduced due to megalomania. \\
-
- 
-\MyParagraph{\textbf{Average severity of megalomania}}. 
-This metric calculates average \numberchoices introduced all instances of megalomania in the version number list. For the example above, the average \numberchoices introduced by megalomania is 1.5 ( $\frac{ 1 + 2}{2}$).
- \\
-
 
 \subsection{Metrics and Metatrees}
 
@@ -508,7 +521,7 @@ For example, there is a project where one jump happens from version 1.0 to 1.0.0
 \caption{Representations of empty jumps as metatrees}
 \label{fig:emptyJumpMeta}
 \end{figure}
-
+c
 %\TODO{Figure}
 Figure~\ref{fig:emptyJumpMeta} shows the metatree for each versions' individual metatree and the union of both trees. \\
 
@@ -522,6 +535,52 @@ We represent megalomania as new nodes of the metatree.
 For example, in a project that contains two instances of megalomania, from version 1.0.1 to 2.0.0, and later from 2.0.25 to 2.1.0.
 \TODO{show that there are 2 nodes for the first megalomania and 1 node for the second megalomania}
 
+\subsection{Aggregated Metrics}
+
+Using the above metrics we calculate a single metric that includes jumps, empty jumps, and megalomania for an entire project. 
+We calculate a single value for each project so that we can compare inconsistencies in version numbering between projects.
+\TODO{Explain}
+
+Using the sum of the jumps and the total number of jumps, we calculate the total \numberichoices as the sum of all jumps minus the number of jumps.\\
+t
+We described how we calculated each of our metrics within each version compound. 
+Just looking at separate version compounds isn't enough because ...
+We determined the aggregate metrics for each version number based on the effect across version compounds the inconsistency had on the metatree. \\
+
+
+\MyParagraph{\textbf{Average size of severity of empty jumps}}. 
+This metric calculates average \numberchoices introduced all empty jumps in the version number list. For the example above, the average \numberchoices introduced by all empty jumps is 2.5 ($\frac{ 2 + 3}{2}$).
+ \\
+
+
+\MyParagraph{Sum of severity of empty jumps}
+This metric counts the number of unique occurrences of empty jumps that deviate from the original number of version compounds for the entire version number list. 
+Each time a unique empty jump occurs we compute the severity of the empty jump as the number version compounds present in the second version number of the empty jump.
+In the example above the severity of the empty jump from version number 1.0 to version number 1.0.1 is three.
+However, in the same project we discard the severity of the empty jump from version number 1.0.34 to version number 1.1 because the choice to select 1.1 is still a valid \choice from the previously encountered version 1.0.
+We calculate the sum of all empty jumps to calculate the total \numberchoices introduced due to empty jumps. 
+\\
+
+
+
+\MyParagraph{Aggregated Jumps} A jump does not appear on a metatree and so to determine the \numberchoices it is important to count the number of jumps that appear in a version history list. 
+We determined that a jump in the a version compound will introduce different \numberichoices depending of the version compound's position. 
+To determine the total \numberichoices we took as sum of the number of jumps for each version compound and multiplied it by the \numberichoices that the version compound's position introduced. \\
+
+
+\MyParagraph{\textbf{Sum of the severity of megalomania}}.  
+\TODO{just sum all megalomania}
+
+\feedback{i hate this sentence} We take the sum of the severities of megalomania for every instance encountered in  the version number list.
+In the example above, the sum of the severities of megalomania is 3 (1 + 2).
+We use the sum of all instances of megalomania to calculate the total \numberchoices introduced due to megalomania. \\
+
+ 
+\MyParagraph{\textbf{Average severity of megalomania}}. 
+This metric calculates average \numberchoices introduced all instances of megalomania in the version number list. For the example above, the average \numberchoices introduced by megalomania is 1.5 ( $\frac{ 1 + 2}{2}$).
+ \\
+
+\TODO{1. Aggregate Metrics,2a. Data tables 2. Analysis, 3.Implications, 4. Related Work}
 
 \section{Analysis}
 
