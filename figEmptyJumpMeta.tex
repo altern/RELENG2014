@@ -1,0 +1,28 @@
+% !TEX root =  ./VersionPaper.tex
+\begin{tabular}{c | c | c} \hline
+Metatree containing 1.0 & Metatree containing 1.0.0 & Union of metatrees \\ \hline
+\begin{minipage}{.3\columnwidth}
+\dirtree{%
+.1 x.x.
+.2 1.x.
+}  
+\end{minipage} &
+\begin{minipage}{.3\columnwidth}
+\dirtree{%
+.1 x.x.x.
+.2 1.x.x.
+.3 1.0.x.
+}  
+\end{minipage} &
+\begin{minipage}{.3\columnwidth}
+\dirtree{%
+.1 x.x(.x).
+.2 x.x.
+.3 1.x.
+.2 x.x.x.
+.3 1.x.x.
+.4 1.0.x.
+}  
+\end{minipage} 
+
+\end{tabular}
