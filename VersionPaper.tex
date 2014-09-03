@@ -111,25 +111,34 @@ our parsing.
 \section{State of the Practice}
 \label{sec:Practice}
 
-\TODO{This section}
+%\TODO{This section}
 
-Given a version number MAJOR.MINOR.PATCH, increment the:
+Developers often use version numbers to communicate information about their project to people involved in the software development process as well as to identify different iterations of their project to users.
+One approach to version numbering, called semantic versioning, conveys information about the changes in the projects that occur from release to release. 
+Semantic versioning uses three version compounds that represent the major version, minor version, and patch version.
+The changes to the major version indicate incompatible API changes while changes in the minor version indicate additional functionality and backwards compatibility.
+The changes in the patch version represents backwards compatible bug fixes\cite{SemanticVersioning}.
+Many projects implement some flavor of semantic versioning.
 
-MAJOR version when you make incompatible API changes,
-MINOR version when you add functionality in a backwards-compatible manner, and
-PATCH version when you make backwards-compatible bug fixes.
-Additional labels for pre-release and build metadata are available as extensions to the MAJOR.MINOR.PATCH format.
-
-\TODO{Apple versioning}
-\TODO{Something with the date versioning}
+%\TODO{Apple versioning}
+%\TODO{Something with the date versioning}
 
 The GNU version numbering scheme dictates that each release should contain a major and a minor version as the first and second version compounds and claims that additional version compounds are probably unnecessary\cite{GNUVersionNumbering}.
 Apache Portable Runtime projects outlines its version number scheme to have three integer version compounds, the first version compound representing the major version, the second the minor version, and the third the patch level.
-Additionally, Apache Portable Runtime project consider versions that contain a zero as the first version compound as a special case where incrementing version numbers does communicate consistent information about the changes in the project \cite{ApacheVersionNumbering}.
+Additionally, Apache Portable Runtime project consider versions that contain a zero as the first version compound as a special case where incrementing version numbers does not communicate consistent information about the changes in the project \cite{ApacheVersionNumbering}.
+Apple also recommends using three version compounds when assigning version numbers shared resources.
+In this scheme, the first version compound is the major version, the second version compound is a minor version with public interface changes, and the third version compound is another minor version with no public interface changes\cite{AppleVersionNumbering}.
 Microsoft's scheme for version numbering consists of four version compounds representing the major version, the minor versions, the build number, and the revision \cite{MSVersionNumbering}.
 
+
+
+Though semantic versioning is a popular versioning scheme, not all projects try to convey information about their contents through version numbering. 
+Some projects use version numbers to communicate the date on which the version of the project was released. 
+For example, Ubuntu versions consist of two version compounds, the first representing the year and the second the month\cite{UbuntuVersionNumbering}.
+In this paper, we studied inconsistencies in semantic version numbering approach.
+
 \section{Metrics}
-\TODO{Aggregated metrics}
+%\TODO{Aggregated metrics}
 
 %{Why inconsistency is bad? Because it breaks existing assumptions.} 
 We define inconsistency in software version numbering as an availability of choices for assigning new version number that breaks existing version numbering patterns. 
@@ -538,7 +547,7 @@ For example, in a project that contains two instances of megalomania, from versi
 \subsection{Aggregated Metrics}
 
 Using the above metrics we calculate a single metric that includes jumps, empty jumps, and megalomania for an entire project. 
-We calculate a single value for each project so that we can compare inconsistencies in version numbering between projects.
+By reducing the metrics to a single number, we can compare inconsistencies in version numbering between projects.
 \TODO{Explain}
 
 Using the sum of the jumps and the total number of jumps, we calculate the total \numberichoices as the sum of all jumps minus the number of jumps.\\
@@ -597,7 +606,7 @@ This metric calculates average \numberchoices introduced all instances of megalo
 
 \section{Threats to Validity}
 
- The proprietary data may be incomplete because we only harvested information that the distributor chose to display online which could contribute to additional jumps for artifacts that were never made public. Conversely, enterprises may shield the general from the burden of intermediate builds by only displaying clean, sequential versions on their websites and in their documentation which could skew the results of our analysis.
+ The proprietary data may be incomplete because we only harvested information that the distributor chose to display online which could contribute to additional jumps for artifacts that were never made public. Conversely, enterprises may shield the general from the burden of intermediate builds by only displaying clean, sequential versions on their websites and in their documentation which could skew the results of our analysis. 
 
 
 
@@ -618,6 +627,6 @@ The authors would like to thank...
 % initial runs of your .tex file to
 % produce the bibliography for the citations in your paper.
 \bibliographystyle{IEEEtran}
-\bibliography{bibliography}  % sigproc.bib is the name of the Bibliography in this case
+\bibliography{bibliography,PropVersionRef,ZoteroRefs,OSSRefs}  % sigproc.bib is the name of the Bibliography in this case
 
 \end{document}
