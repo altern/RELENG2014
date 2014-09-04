@@ -6,6 +6,10 @@
 \usepackage{dirtree}
 \usepackage{tabularx}
 \usepackage{adjustbox}
+\usepackage{csvsimple}
+\usepackage{float}
+
+
 
 \begin{document}
 
@@ -46,11 +50,11 @@ TODO Last
 
 \subsection{Data Corpus}
 
-\par To answer our research questions we gathered information about version numbering from both open source and proprietary projects, totaling  \TotalNumProjects projects. When selecting projects to add to the corpus we chose
+\par To answer our research questions we gathered information about version numbering from both open source and proprietary projects, totaling \TotalVNs different version numbers across \TotalNumProjects projects. When selecting projects to add to the corpus we chose
 projects that are (i) mature and well-known, and (ii) representative. Our corpus spans the areas of software development tools, operating systems, games, programming languages, desktop applications, productivity tools, libraries and frameworks, etc. 
 Our requirements for members of the corpus also included easily accessible version information as well as adequate documentation.
 
-For open source projects we drew data from both Github and SourceForge because previous studies \cite{} have shown that git and svn, the backbone of Github and SourceForge respectively, are the most widely used version control systems. In addition to this, both systems contain rich history information about tags and version numbers. To retrieve the version history of each project we used the \code{git tag} and \code{svn list} 
+For open source projects we drew data from both Github and SourceForge because previous studies \cite{brindescu2014} have shown that git and svn, the backbone of Github and SourceForge respectively, are the most widely used version control systems. In addition to this, both systems contain rich history information about tags and version numbers. To retrieve the version history of each project we used the \code{git tag} and \code{svn list} 
 %svn://svn.code.sf.net/p/\$project\_name/code/tags}  
 commands and stored the output of each command for later analysis.
 
@@ -60,7 +64,18 @@ To extract version numbers, we combined information from readily available produ
 with information from third party websites such as wikis, user forums, press releases.
 When we had to use multiple sources, we merged the version numbers into a single set per project. During the merge we removed duplicates between the documents, but did not remove duplicates when they existed in the same document, e.g., when two different download archives had the same version number.
 
-Table \ref{tab:ProjectsCorpus} lists the names of the projects in our corpus. For each project we also tabulate information such as age, size, number of versions, \TODO{describe the columns}.
+\begin{table*}[t]
+\begin{adjustbox}{width=\textwidth}
+\csvautotabular{tables/project_info_analysis_results.csv}
+\end{adjustbox}
+\caption{Summary of the projects in our corpus}
+\label{tab:ProjectsCorpus}
+\end{table*}
+
+Unfortunately, we cannot display the information we gathered about all \TotalNumProjects projects that comprise our corpus due to space limitations, however the complete listing of projects referenced is available at our website, \website.
+Table \ref{tab:ProjectsCorpus} lists a summary of the properties of the projects in our corpus using the minimum, maximum, median, and standard deviate for each category. 
+The properties of each project that we took into consideration are the size of the team that worked on the project, the age of the project, the application size, and the number of versions the project has. 
+If certain information was unavailable on a project, it was not included in the calculations related to the unknown property.
 
 \subsection{Data Parsing}
 
@@ -76,7 +91,7 @@ Additionally, our definition discards delimiters (e.g., period, underscore, spac
 Table \ref{table:exampleVCs} shows examples of version numbers before-and-after 
 our parsing.
  
- \begin{table*}[t]
+ \begin{table*}[htb]
  \begin{center}
  \begin{adjustbox}{width=\textwidth}
 \input{figVersionSplit.tex}
@@ -111,25 +126,34 @@ our parsing.
 \section{State of the Practice}
 \label{sec:Practice}
 
-\TODO{This section}
+%\TODO{This section}
 
-Given a version number MAJOR.MINOR.PATCH, increment the:
+Developers often use version numbers to communicate information about their project to people involved in the software development process as well as to identify different iterations of their project to users.
+One approach to version numbering, called semantic versioning, conveys information about the changes in the projects that occur from release to release. 
+Semantic versioning uses three version compounds that represent the major version, minor version, and patch version.
+The changes to the major version indicate incompatible API changes while changes in the minor version indicate additional functionality and backwards compatibility.
+The changes in the patch version represents backwards compatible bug fixes\cite{SemanticVersioning}.
+Many projects implement some flavor of semantic versioning.
 
-MAJOR version when you make incompatible API changes,
-MINOR version when you add functionality in a backwards-compatible manner, and
-PATCH version when you make backwards-compatible bug fixes.
-Additional labels for pre-release and build metadata are available as extensions to the MAJOR.MINOR.PATCH format.
-
-\TODO{Apple versioning}
-\TODO{Something with the date versioning}
+%\TODO{Apple versioning}
+%\TODO{Something with the date versioning}
 
 The GNU version numbering scheme dictates that each release should contain a major and a minor version as the first and second version compounds and claims that additional version compounds are probably unnecessary\cite{GNUVersionNumbering}.
 Apache Portable Runtime projects outlines its version number scheme to have three integer version compounds, the first version compound representing the major version, the second the minor version, and the third the patch level.
-Additionally, Apache Portable Runtime project consider versions that contain a zero as the first version compound as a special case where incrementing version numbers does communicate consistent information about the changes in the project \cite{ApacheVersionNumbering}.
+Additionally, Apache Portable Runtime project consider versions that contain a zero as the first version compound as a special case where incrementing version numbers does not communicate consistent information about the changes in the project \cite{ApacheVersionNumbering}.
+Apple also recommends using three version compounds when assigning version numbers shared resources.
+In this scheme, the first version compound is the major version, the second version compound is a minor version with public interface changes, and the third version compound is another minor version with no public interface changes\cite{AppleVersionNumbering}.
 Microsoft's scheme for version numbering consists of four version compounds representing the major version, the minor versions, the build number, and the revision \cite{MSVersionNumbering}.
 
+
+
+Though semantic versioning is a popular versioning scheme, not all projects try to convey information about their contents through version numbering. 
+Some projects use version numbers to communicate the date on which the version of the project was released. 
+For example, Ubuntu versions consist of two version compounds, the first representing the year and the second the month\cite{UbuntuVersionNumbering}.
+In this paper, we studied inconsistencies in semantic version numbering approach.
+
 \section{Metrics}
-\TODO{Aggregated metrics}
+%\TODO{Aggregated metrics}
 
 %{Why inconsistency is bad? Because it breaks existing assumptions.} 
 We define inconsistency in software version numbering as an availability of choices for assigning new version number that breaks existing version numbering patterns. 
@@ -285,10 +309,15 @@ We repeat the previous step until we have traversed all elements in the version 
 
 %\TODO{1. Explain how to see number of choices, 2. explain how metatrees show this, 2a. Explain throwing away the most recent}
 
+We distinguish between different metatrees depending on the version sets they consist of. If the version sets contain two version compounds, we refer to the metatree that consists of those version sets as a metatree of depth 2. 
+Likewise we refer to a metatree that consists of version sets containing three version compounds as a metatree of depth 3.
+%by referring to them as having a depth equal to the number of version compounds a version number within that tree would contain. For example, the metatree with a root node of x.x is called a metatree of depth 2 and a metatree with a root node of x.x.x.x is referred to as a metatree of depth 4.
+
+
 We  created metatrees to help us calculate the \numberchoices which are difficult to compute when only looking at a version number list or a version number tree.
 
 In Example 1, a software team's existing versions are 1.0, 1.1, 1.2 with the two choices 1.3 and 2.0 for the next release. As Figure~\ref{fig:diaExamples} shows, we can extract two version sets from the existing list of version numbers: x.x and 1.x. The version set 1.x accounts for the choice to change from 1.2 to 1.3 because both have a 1 as a leading version compound. The version set x.x accounts for the change from 1.0 to 2.0 because the two version numbers have similar structure, but no common version compounds.
-
+The metatree for Example 1 is a metatree of depth 2.
 
 % The first such property is \textbf{number of version compounds}. 
 
@@ -297,6 +326,7 @@ As Figure~\ref{fig:diaExamples} shows, we can extract three version sets from th
 The version set 1.0.x accounts for the change from 1.0.2 to 1.0.3 because both version numbers have common values for the first two version compounds. 
 The version set 1.x.x accounts for the choice to change from 1.0.0 to 1.1.0 because both have a 1 as a leading version compound. 
 The version set x.x.x accounts for the change from 1.0.0 to 2.0.0 because the two version numbers have similar structure, but no common version compounds.
+The metatree for Example 2 is a metatree of depth 3.
 
 
 %Second property that defines number of possible choices for new version numbers is \textbf{number of "locked in" versions}. 
@@ -305,7 +335,7 @@ In Example 3, a software team's project has the existing versions 1.0, 1.1, 1.2,
 As Figure~\ref{fig:diaExamples} shows, we can extract three version sets from the existing list of version numbers: x.x, 1.x, 2.x, and 3.x. 
 The version set 1.x accounts for the change from 1.2 to 1.3, the version set 2.x accounts for the change from 2.1 to 2.2, and the version set 3.x accounts for the change from 3.0 to 3.1 because the version numbers have common values for the first version compounds. 
 The version set x.x accounts for the change from 3.0 to 4.0 because the two version numbers have similar structure, but no common version compounds.
-
+The metatree for Example 3 is a metatree of depth 2.
 
 In Example 4, a software team's project has the existing versions 1.0.0, 1.0.1, 1.0.2, 2.0.0, 2.1.0, 3.0.0.
  The team has the eight choices 1.0.3, 1.1.0, 2.0.1, 2.1.1, 2.2.0, 3.0.1, 3.1.0, 4.0.0 for the next assigned version number. 
@@ -313,6 +343,7 @@ As Figure~\ref{fig:diaExamples} shows, we can extract eight version sets from th
 The version set 1.0.x accounts for the change from 1.0.2 to 1.0.3, the version set 2.0.x accounts for the change from 2.0.1 to 2.0.2, and the version set 3.0.x accounts for the change from 3.0.0 to 3.0.1 because the version numbers have common values for the first version compounds. 
 The version set 1.x.x accounts for the change from 1.0.0 to 1.1.0, the version set 2.x.x accounts for the change from 2.0.0 to 2.1.0, and the version set 3.x.x accounts for the change from 3.0.0 to 3.1.0 because the version numbers have common values for the first two version compounds. 
 The version set x.x.x accounts for the change from 3.0.0 to 4.0.0 because the two version numbers have similar structure, but no common version compounds.
+The metatree for Example 4 is a metatree of depth 3.
 
 As you can see from the four examples above, the \numberchoices is equal to the number nodes in a metatree.
 
@@ -376,7 +407,7 @@ In the example above, the severity of jumps on the third version compound is
  \begin{adjustbox}{max width=.5\textwidth}
 \input{figExVCJumps.tex}
 \end{adjustbox}
-\caption{Version compound location's affect on number of immediate choices. Existing version numbers appear bold, version choices appear italicized, implicit choices are surrounded by parenthesis, and immediate choices introduced by the jump are boxed. The farther left a jumped version compound is located the more immediate choices are introduced.}
+\caption{Version compound location's affect on number of immediate choices. Existing version numbers appear bold, version choices appear italicized, implicit choices are surrounded by parenthesis, and immediate choices introduced by each jump are boxed. The farther left a jumped version compound is located the more immediate choices are introduced.}
 \label{fig:ExVCJumps}
 \end{figure}
 
@@ -407,11 +438,12 @@ The average size of jumps represents the average \numberchoices introduced by ea
 
 %We collect length of each jump for further analysis. For example list of jumps for third version compound for array of version numbers [1.0.2, 1.0.3, 1.0.5, 1.0.6, 1.0.7, 1.0.10] would be [2, 3]. 
 
+%\TODO{clarify empty jumps}
 \MyParagraph{Empty Jumps}. An empty jump is defined by two consecutively released versions containing a different number of version compounds. 
 For example, a project in which version 1.0.25 is followed immediately by version 1.1 represents an empty jump in third version compound, later in this project another empty jump occurs from version 1.3 to 1.3.1. 
 We distinguish between adding or removing version compounds because expanding or shrinking the version number will have a different effect on the \numberchoices. 
 When expanding the version number to include additional version compounds, the \numberchoices increases by the number of version compound in the new version number. In the above example, expanding the version number from 1.3 to 1.3.1 introduces three new \choices, 1.3.2, 1.4.0, and 2.0.0 in addition to the existing \choices, 1.4 and 2.0. 
-When removing version compounds, the \numberchoices also increases by the number of version compound in the new version number. In the above example, shrinking the version number from 1.0.25 to 1.1 introduces three new \choices, 1.2 and 2.0 in addition to the existing \choices, 1.0.26, 1.1.0 and 2.0.0. \\
+When removing version compounds, the \numberchoices also increases by the number of version compound in the new version number. In the above example, shrinking the version number from 1.0.25 to 1.1 introduces two new \choices, 1.2 and 2.0 in addition to the existing \choices, 1.0.26, 1.1.0 and 2.0.0. \\
 %We do not distinguish between adding or removing version compounds because either expanding or shrinking the version number demonstrates a lack of consistency. \TODO{address textual stuff?} \\
 
 %\begin{itemize}
@@ -488,7 +520,7 @@ For each version compound of a project, this metric counts the total number of i
 For example, in a project where version numbers increase from version 1.0.1 to 2.0.0, and later from 2.0.25 to 2.1.0 will register as two instances of megalomania.
 We collect the number of instances of megalomania because they indicate the frequency of the problem. \\
 
-\TODO{Here}
+%\TODO{Here}
 \MyParagraph{Severity of Megalomania}
 Notice that there is a difference between change from 1.0.0 to 1.1.0 and change from 1.0.0 to 2.0.0. 
 The change from 1.0.0 to 1.1.0 introduces one additional \choice while the change from 1.0.0 to 2.0.0 introduces two more \choices.
@@ -498,18 +530,47 @@ We use this to define the severity of megalomania as the \numberextrachoices int
 
 We are connecting metrics with operations on metatrees.
 
-We are doing this to prove that metatrees are useful.
+We are doing this to prove that metatrees are useful. \\
+
+%\TODO{Jumps and Metatrees}
 
 \MyParagraph{Jumps and Metatrees}
-Jumps and metatrees don't like each other because jumps happen within version sets. 
-Therefore it does not introduce a change to the metatree.
-We collect these because they are still inconsistencies but they are not high level inconsistencies. \\
+A jump does not appear on a metatree and so to determine the \numberchoices it is important to count the number of jumps that appear in a version history list.  
+%Jumps and metatrees don't like each other because jumps happen within version sets.
+Jumps happen within version sets, therefore jumps do not introduce changes to metatrees. For example, if a jump from version number 1.0.3 to 1.0.5 occurs, it happens within the same version set 1.0.x. Therefore, it does not introduce new nodes to the metatree.
+% We collect these because they are still inconsistencies but they are not high level inconsistencies. \\
+\\
 
 \MyParagraph{Empty Jumps and Metatrees}
-What: We are showing that the inconsistencies caused by empty jumps can be represented by operations on metatrees.
-Why to show that we can predict inconsistencies caused by empty jumps
-How: We represent empty jumps as the union of two metatrees. 
-For example, there is a project where one jump happens from version 1.0 to 1.0.0. 
+Inconsistencies caused by empty jumps can be represented by operations on metatrees.
+Using the metatrees, we can explain the mechanics of how empty jumps introduce inconsistencies depending on the existing version number list.
+%In the previous example for empty jumps, the project had an empty jump (1) from 1.0.25 to 1.1 and later has an empty jump (2) from 1.3 to 1.3.1.
+%Before the first empty jump, the \choices were 1.0.26, 1.1.0, and 2.0.0.
+%After the empty jump the list of \choices also includes 1.2 and 2.0, adding a total of two additional \choices.
+%Before the second empty jump the developers still have 5 \choices: 1.0.26, 1.1.0, 2.0.0, 1.4, and 2.0. 
+%After the second empty jump the developers have 1.0.26, 1.1.0, 1.3.2, 1.4.0, 2.0.0, 1.4, and 2.0.
+%As we explained in Section~\ref{asdfsadF}, the choices 1.3.2 and 1.4.0 emerge due to megalomania.
+%If we only consider the effect of empty jumps, the number of choices remains the same (5) and will remain the same with each subsequent empty jump between two and three version compounds. 
+%If constructed out of list of version numbers that contains empty jump, metatree represents available \choices introduced by empty jumps as metatree nodes. 
+%For example, as shown in Fig... , metatree for list of version numbers ... contains 7 nodes but only 5 nodes are intro. 
+%, the software project has the version number list 1.0, 1.1, 1.2. 
+%If we assign version numbers 1.0.0, 1.0.1, 1.0.2 to the next three subsequent releases, then the \numberchoices is now 1.3, 2.0, 1.0.3, 1.1.0, and 2.0.0. 
+
+For example, in one of the projects in our corpus, Atlassian Bamboo, there is an instance of an empty jump (1) from 1.0 to 1.0.1 and later an instance of an empty jump (2) from 1.0.5 to 1.1.
+Before the first empty jump, the developers could select from two \choices: 1.1 and 2.0.
+After the the first empty jump, the list of choices expands to 1.0.2, 1.1.0, and 2.0.0, for a total of five \choices.
+Before the second empty jump the developers still have five \choices: 1.0.6, 1.1.0, 2.0.0, 1.1, and 2.0. 
+After the second empty jump the developers can choose from these \choices 1.0.6, 1.1.0, 2.0.0, 1.2, and 2.0, for the same number of total choices, five.
+Without the interference from jumps or megalomania, the \numberchoices introduced by an empty jump will depend on whether an instance of an empty jump with the same severity has occurred before.
+
+%\TODO{rewrite example with 1.0 -> 1.0.1 -> 1.1: bamboo}
+
+%As shown above, the \numberchoices introduced by empty jumps vary depending on the number of version compounds in an empty jump and 
+%
+%
+%
+%How: We represent empty jumps as the union of two metatrees. 
+%For example, there is a project where one jump happens from version 1.0 to 1.0.0. 
 
 
 \begin{figure}
@@ -518,86 +579,172 @@ For example, there is a project where one jump happens from version 1.0 to 1.0.0
 \input{figEmptyJumpMeta.tex}
 \end{adjustbox}
 \end{center}
-\caption{Representations of empty jumps as metatrees}
+\caption{Representation of an empty jump from version number 1.0 to 1.0.1 and 1.0.5 to 1.1 as metatrees}
 \label{fig:emptyJumpMeta}
 \end{figure}
-c
-%\TODO{Figure}
-Figure~\ref{fig:emptyJumpMeta} shows the metatree for each versions' individual metatree and the union of both trees. \\
 
-\MyParagraph{Megalomania and Metatrees}
-What:  We are showing that the inconsistencies caused by megalomania can be represented by operations on metatrees.
+%\TODO{Show concrete example Figure}
+It is convenient to use a metatree to represent the mechanics of how empty jumps introduce new \choices.
 
-Why: to show that we can predict inconsistencies caused by megalomania
+The representation of an empty jump as a union of two metatrees allows us to account for all possible scenarios for empty jumps between version numbers that consist of an arbitrary number of version compounds.% while only introducing the additional number of choices directly related to empty jumps. 
+%To generate the union we take the root node for each metatree involved an empty jump and convert them into children nodes 
+We construct two or more metatrees as a result of version number sets that contain empty jumps. 
+We refer to the new structure that consists of those two metatrees as a \emph{union metatree}.% (See Figure~\ref{fig:emptyJumpMeta}).
 
-How: 
-We represent megalomania as new nodes of the metatree.
-For example, in a project that contains two instances of megalomania, from version 1.0.1 to 2.0.0, and later from 2.0.25 to 2.1.0.
-\TODO{show that there are 2 nodes for the first megalomania and 1 node for the second megalomania}
-
-\subsection{Aggregated Metrics}
-
-Using the above metrics we calculate a single metric that includes jumps, empty jumps, and megalomania for an entire project. 
-We calculate a single value for each project so that we can compare inconsistencies in version numbering between projects.
-\TODO{Explain}
-
-Using the sum of the jumps and the total number of jumps, we calculate the total \numberichoices as the sum of all jumps minus the number of jumps.\\
-t
-We described how we calculated each of our metrics within each version compound. 
-Just looking at separate version compounds isn't enough because ...
-We determined the aggregate metrics for each version number based on the effect across version compounds the inconsistency had on the metatree. \\
-
-
-\MyParagraph{\textbf{Average size of severity of empty jumps}}. 
-This metric calculates average \numberchoices introduced all empty jumps in the version number list. For the example above, the average \numberchoices introduced by all empty jumps is 2.5 ($\frac{ 2 + 3}{2}$).
- \\
-
-
-\MyParagraph{Sum of severity of empty jumps}
-This metric counts the number of unique occurrences of empty jumps that deviate from the original number of version compounds for the entire version number list. 
-Each time a unique empty jump occurs we compute the severity of the empty jump as the number version compounds present in the second version number of the empty jump.
-In the example above the severity of the empty jump from version number 1.0 to version number 1.0.1 is three.
-However, in the same project we discard the severity of the empty jump from version number 1.0.34 to version number 1.1 because the choice to select 1.1 is still a valid \choice from the previously encountered version 1.0.
-We calculate the sum of all empty jumps to calculate the total \numberchoices introduced due to empty jumps. 
+To illustrate the above example of an empty jump from 1.0 to 1.0.1, Figure~\ref{fig:emptyJumpMeta} shows both the metatree the metatree of depth 2 and the metatree of depth 3 for the version number list and the union metatree as a result of an empty jump.
+The first metatree is of depth 2 (consists of version sets x.x, 1.x). and the second metatree is of depth 3 (consists of version sets x.x.x, 1.x.x, 1.0.x).
+%of the union metatree root node, represented by the number of version compounds of both submetatrees and additional version compound in parenthesis. 
+The root node of the union metatree is x.x(.x) because it represents variable number of version compounds.
+%for both the version numbers with two version compounds and the version numbers with three version compounds and the union metatree as a result of an empty jump. 
+When the second empty jump (1.0.5 to 1.1) occurs, the union metatree remains the same because the metatree of depth 2 is already a subtree of the union metatree. 
+Note that empty jumps and megalomania often occur simultaneously.
+When we calculate empty jump metrics, we account only for the effects of empty jumps. 
 \\
 
+%\TODO{Megalomania and metatrees}
+
+\MyParagraph{Megalomania and Metatrees}
+\label{sec:MegaAndMeta}
+Operations on metatrees illustrate inconsistencies caused by megalomania in a simple and concise manner. 
+Number of nodes that instance of megalomania introduces is equal to the severity of the instance of megalomania. 
+For example, instance of megalomania 1.2.1 -> 2.0.0 has severity 2 because it introduces the \choices 2.0.1 and 2.1.0. 
+Also, version number 2.0.0 causes the creation of additional version sets 2.x.x and 2.0.x, which are both added to the metatree.
+The version set 2.0.x represents the \choice 2.0.1 and the version set 2.x.x represents the \choice 2.1.0. 
+Likewise, if megalomania of severity 3 occurs, then it will add three \choices represented by three additional nodes of the metatree.
+Thus, the number of metatree nodes added by an instance of megalomania is equal to the severity of such instance. 
+
+\subsection{Aggregated Metrics}
+We calculate the above metrics for each version compound.
+To compare projects, we use the metrics for each version compound to calculate a set of aggregated metrics across all version compounds and version numbers per project.
+The sets of aggregated metrics include jumps, empty jumps, and megalomania. \\
 
 
-\MyParagraph{Aggregated Jumps} A jump does not appear on a metatree and so to determine the \numberchoices it is important to count the number of jumps that appear in a version history list. 
-We determined that a jump in the a version compound will introduce different \numberichoices depending of the version compound's position. 
-To determine the total \numberichoices we took as sum of the number of jumps for each version compound and multiplied it by the \numberichoices that the version compound's position introduced. \\
+\MyParagraph{Aggregated jumps}
+Using the sum of the jumps for each version compound, we calculate the total \numberichoices as the sum of the number of jumps per version compound times the severity of the jump. \\
+%We determined the aggregate metrics for each version number based on the effect across version compounds the inconsistency had on the metatree. \\
+
+%
+%\MyParagraph{\textbf{Average size of severity of empty jumps}}. 
+%This metric calculates average \numberchoices introduced all empty jumps in the version number list. For the example above, the average \numberchoices introduced by all empty jumps is 2.5 ($\frac{ 2 + 3}{2}$).
+% \\
+
+%\TODO{aggregated empty jumps}
+
+\MyParagraph{Aggregated empty jumps}
+We aggregate empty jumps by calculating the sum of unique severities across all version numbers in a project. 
+%\TODO{Example}
+For example a project that has version numbers 1.0.0.0, 1.0.1, 1.1, 1.2, 1.2.1, 1.2.1.1.
+To calculate a single metric we first calculate the individual severities of empty jumps in the version history: 3, 2, 3, 4.
+We then combine this project's empty jumps to the single aggregated value of empty jumps by selecting unique occurrences of severity values.
+%\TODO{Meta tree diagrams for the example  }
+We select only unique values because, as this example shows, the second instance of the empty jump with a severity of three does not introduce a new subtree to the metatree.
+Next, we exclude empty jumps that have the same severity as the original version number because an empty jump with the severity equal to the original number of version compounds does not introduce new nodes in the metatree.
+In the example above, the empty jump with severity four does not introduce metatree nodes and will be counted as megalomania instead.
+
+As a result, the aggregated value of empty jumps in the example is 5 (3 + 2 + 4 - 4).
+\\
+
+%\MyParagraph{Aggregated Jumps} 
+%We determined that a jump in the a version compound will introduce different \numberichoices depending of the version compound's position. 
+%To determine the total \numberichoices we took as sum of the number of jumps for each version compound and multiplied it by the \numberichoices that the version compound's position introduced. \\
 
 
-\MyParagraph{\textbf{Sum of the severity of megalomania}}.  
-\TODO{just sum all megalomania}
+\MyParagraph{\textbf{Aggregated severity of megalomania}}.  
+As we have shown before in Section~\ref{sec:MegaAndMeta}, the degree of megalomania severity represents the number of nodes added to the metatree.
+%, because the degree of severity represent the number of nodes added to the metatree. 
+Therefore, in order to count all metatree nodes added as a result of megalomania, it is sufficient to calculate the sum of all megalomania severities.
+For example, a project that contains the version numbers 1.0.1, 2.0.0, and 2.1.0 the aggregated severity of megalomania is 5 (3 + 2).
+%the sum represents the number of metatree nodes introduced by megalomania.
+%\TODO{just sum all megalomania}
 
-\feedback{i hate this sentence} We take the sum of the severities of megalomania for every instance encountered in  the version number list.
-In the example above, the sum of the severities of megalomania is 3 (1 + 2).
-We use the sum of all instances of megalomania to calculate the total \numberchoices introduced due to megalomania. \\
+%\feedback{i hate this sentence} We take the sum of the severities of megalomania for every instance encountered in  the version number list.
+%In the example above, the sum of the severities of megalomania is 3 (1 + 2).
+%We use the sum of all instances of megalomania to calculate the total \numberchoices introduced due to megalomania. \\
 
- 
-\MyParagraph{\textbf{Average severity of megalomania}}. 
-This metric calculates average \numberchoices introduced all instances of megalomania in the version number list. For the example above, the average \numberchoices introduced by megalomania is 1.5 ( $\frac{ 1 + 2}{2}$).
- \\
+% 
+%\MyParagraph{\textbf{Average severity of megalomania}}. 
+%This metric calculates average \numberchoices introduced all instances of megalomania in the version number list. For the example above, the average \numberchoices introduced by megalomania is 1.5 ($\frac{ 1 + 2}{2}$).
+% \\
 
-\TODO{1. Aggregate Metrics,2a. Data tables 2. Analysis, 3.Implications, 4. Related Work}
+\MyParagraph{Aggregate inconsistency score}
+The aggregate inconsistency score is the overall aggregate metric used to compare all inconsistencies across entire projects' version number lists.
+The aggregate inconsistency score is simple the sum of all aggregated metrics: aggregated jumps, aggregated empty jumps, and the aggregated severity of megalomania. 
+
+\TODO{1. check Aggregate Metrics, 2. Analysis, 3.Implications, 4. Related Work. check 5. Aggregated Inconsistancy Metric}
 
 \section{Analysis}
 
-\begin{itemize}
-\item RQ1: OSS vs Proprietary
-\item RQ2: Projects of different sizes
-\item RQ3: Age of different projects
-\item RQ4: Dev tools vs other applications
-\item RQ5: SDKs vs other applications 
-\end{itemize}
+\subsection{\RQOne}
+
+\begin{table*}[htb]
+\begin{adjustbox}{width=\textwidth}
+\csvautotabular{tables/oss_analysis_results.csv}
+\end{adjustbox}
+\end{table*}
+
+\subsection{\RQTwo}
+\begin{table*}[htb]
+\begin{adjustbox}{width=\textwidth}
+\csvautotabular{tables/age_analysis_results.csv}
+\end{adjustbox}
+\end{table*}
+
+
+\subsection{\RQThree}
+\begin{table*}[htb]
+\begin{adjustbox}{width=\textwidth}
+\csvautotabular{tables/team_size_analysis_results.csv}
+\end{adjustbox}
+\end{table*}
+
+
+\subsection{\RQFour}
+No statistically significant data.
+%\begin{table*}[htb]
+%\begin{adjustbox}{width=\textwidth}
+%\csvautotabular{tables/devtools_analysis_results.csv}
+%\end{adjustbox}
+%\end{table*}
+
+\subsection{\RQFive}
+
+\begin{table*}[htb]
+\begin{adjustbox}{width=\textwidth}
+\csvautotabular{tables/sdk_analysis_results.csv}
+\end{adjustbox}
+\end{table*}
+
+\subsection{\RQSix}
+\begin{table*}[h]
+\begin{adjustbox}{width=\textwidth}
+\csvautotabular{tables/vcs_analysis_results.csv}
+\end{adjustbox}
+\end{table*}
+
+\begin{table*}[h]
+\begin{adjustbox}{width=\textwidth}
+\csvautotabular{tables/application_size_analysis_results.csv}
+\end{adjustbox}
+\end{table*}
+
+%\begin{itemize}
+%\item RQ1: OSS vs Proprietary
+%\item RQ2: Projects of different sizes
+%\item RQ3: Age of different projects
+%\item RQ4: Dev tools vs other applications
+%\item RQ5: SDKs vs other applications 
+%\end{itemize}
+
+
+
+
 
 
 \section{Implications}
 
 \section{Threats to Validity}
 
- The proprietary data may be incomplete because we only harvested information that the distributor chose to display online which could contribute to additional jumps for artifacts that were never made public. Conversely, enterprises may shield the general from the burden of intermediate builds by only displaying clean, sequential versions on their websites and in their documentation which could skew the results of our analysis.
+ The proprietary data may be incomplete because we only harvested information that the distributor chose to display online which could contribute to additional jumps for artifacts that were never made public. Conversely, enterprises may shield the general from the burden of intermediate builds by only displaying clean, sequential versions on their websites and in their documentation which could skew the results of our analysis. 
 
 
 
@@ -608,6 +755,11 @@ Marquardt~\cite{Marquardt2010:EuroPLoP} describes patterns for software release 
 
 \section{Conclusions}
 
+%    \begin{tabular}{c c c c c}%
+%    \bfseries Person & \bfseries Matr.~No.% specify table head
+%    \csvreader{tables/oss_analysis_results.csv}{}% use head of csv as column names
+%   % {\\\hline\givenname\ \name & \matriculation}% specify your coloumns here
+%    \end{tabular}
 
 \section*{Acknowledgments}
 
@@ -618,6 +770,6 @@ The authors would like to thank...
 % initial runs of your .tex file to
 % produce the bibliography for the citations in your paper.
 \bibliographystyle{IEEEtran}
-\bibliography{bibliography}  % sigproc.bib is the name of the Bibliography in this case
+\bibliography{bibliography,PropVersionRef,ZoteroRefs,OSSRefs}  % sigproc.bib is the name of the Bibliography in this case
 
 \end{document}
