@@ -140,7 +140,7 @@ Many projects implement some flavor of semantic versioning.
 
 The GNU version numbering scheme dictates that each release should contain a major and a minor version as the first and second version compounds and claims that additional version compounds are probably unnecessary\cite{GNUVersionNumbering}.
 Apache Portable Runtime projects outlines its version number scheme to have three integer version compounds, the first version compound representing the major version, the second the minor version, and the third the patch level.
-Additionally, Apache Portable Runtime project consider versions that contain a zero as the first version compound as a special case where incrementing version numbers does not communicate consistent information about the changes in the project \cite{ApacheVersionNumbering}.
+Additionally, the Apache Portable Runtime project consider versions that contain a zero as the first version compound as a special case where incrementing version numbers does not communicate consistent information about the changes in the project \cite{ApacheVersionNumbering}.
 Apple also recommends using three version compounds when assigning version numbers shared resources.
 In this scheme, the first version compound is the major version, the second version compound is a minor version with public interface changes, and the third version compound is another minor version with no public interface changes\cite{AppleVersionNumbering}.
 Microsoft's scheme for version numbering consists of four version compounds representing the major version, the minor versions, the build number, and the revision \cite{MSVersionNumbering}.
@@ -289,11 +289,11 @@ To construct a metatree from an existing version number list we perform the foll
 First we identify all of the version sets that exist within a version number list and put them in a list of version sets.
 For example the version number 1.2.3.4 belongs to the version sets 1.x.x.x, 1.2.x.x, and 1.2.3.x. 
 A version number belongs to a version set if it has common leading version compound values.
-When we form the version sets, we account for the possibility that a version number can be placed in multiple version sets and can add up to one less than the number of version compounds per version number.
+When we form the version sets, we account for the possibility that a version number can be placed in multiple version sets and can add up to one less version sets than the number of version compounds per version number.
 \feedback{help us}
 
 \begin{figure*}
- \begin{adjustbox}{max width=\textwidth}
+ \begin{adjustbox}{width=\textwidth}
 \input{examplesFigure.tex}
 \end{adjustbox}
 \caption{Examples of metatrees. The bolded version numbers are the existing version numbers for the example projects and the italicized version numbers are the \choices.}
@@ -404,10 +404,10 @@ In the example above, the severity of jumps on the third version compound is
 
 
 \begin{figure}
- \begin{adjustbox}{max width=.5\textwidth}
+ \begin{adjustbox}{width=.5\textwidth}
 \input{figExVCJumps.tex}
 \end{adjustbox}
-\caption{Version compound location's affect on number of immediate choices. Existing version numbers appear bold, version choices appear italicized, implicit choices are surrounded by parenthesis, and immediate choices introduced by each jump are boxed. The farther left a jumped version compound is located the more immediate choices are introduced.}
+\caption{Version compound location's affect on number of immediate choices. Existing version numbers appear bolded, version choices appear italicized, implicit choices are surrounded by parenthesis, and immediate choices introduced by each jump are boxed. The farther left a jumped version compound is located the more immediate choices are introduced.}
 \label{fig:ExVCJumps}
 \end{figure}
 
@@ -528,9 +528,7 @@ We use this to define the severity of megalomania as the \numberextrachoices int
 
 \subsection{Metrics and Metatrees}
 
-We are connecting metrics with operations on metatrees.
-
-We are doing this to prove that metatrees are useful. \\
+We define our metrics as operations on metatrees. \\
 
 %\TODO{Jumps and Metatrees}
 
@@ -653,7 +651,7 @@ As a result, the aggregated value of empty jumps in the example is 5 (3 + 2 + 4 
 As we have shown before in Section~\ref{sec:MegaAndMeta}, the degree of megalomania severity represents the number of nodes added to the metatree.
 %, because the degree of severity represent the number of nodes added to the metatree. 
 Therefore, in order to count all metatree nodes added as a result of megalomania, it is sufficient to calculate the sum of all megalomania severities.
-For example, a project that contains the version numbers 1.0.1, 2.0.0, and 2.1.0 the aggregated severity of megalomania is 5 (3 + 2).
+For example, a project that contains the version numbers 1.0.1, 2.0.0, and 2.1.0 the aggregated severity of megalomania is 5 (3 + 2). \\
 %the sum represents the number of metatree nodes introduced by megalomania.
 %\TODO{just sum all megalomania}
 
@@ -670,7 +668,7 @@ For example, a project that contains the version numbers 1.0.1, 2.0.0, and 2.1.0
 The aggregate inconsistency score is the overall aggregate metric used to compare all inconsistencies across entire projects' version number lists.
 The aggregate inconsistency score is simple the sum of all aggregated metrics: aggregated jumps, aggregated empty jumps, and the aggregated severity of megalomania. 
 
-\TODO{1. check Aggregate Metrics, 2. Analysis, 3.Implications, 4. Related Work. check 5. Aggregated Inconsistancy Metric}
+\TODO{1. check Aggregate Metrics, 2. Analysis, 3.Implications, 4. Related Work.  5. check Aggregated Inconsistancy Metric}
 
 \section{Analysis}
 
@@ -715,11 +713,11 @@ No statistically significant data.
 \end{table*}
 
 \subsection{\RQSix}
-\begin{table*}[h]
-\begin{adjustbox}{width=\textwidth}
-\csvautotabular{tables/vcs_analysis_results.csv}
-\end{adjustbox}
-\end{table*}
+%\begin{table*}[h]
+%\begin{adjustbox}{width=\textwidth}
+%\csvautotabular{tables/vcs_analysis_results.csv}
+%\end{adjustbox}
+%\end{table*}
 
 \begin{table*}[h]
 \begin{adjustbox}{width=\textwidth}
