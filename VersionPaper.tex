@@ -672,7 +672,53 @@ The aggregate inconsistency score is simple the sum of all aggregated metrics: a
 
 \section{Analysis}
 
+We used common version numbering convention described in Section~\ref{sec:StateOfThePractice} as the canonical representation for a version number. We have built our analysis platform to gather metrics described in Section~\ref{sec:Metrics}. 
+
+To explore the statistical significance of various sample differences, we applied the Wilcoxon rank-sum test. We chose this test since none of the data fit a normal distribution. We present results of our analysis only if p-value for compared samples is less than 0.05 . 
+
+Table~\ref{tab:mainMetricsResults} contains information about main metrics that we collected as a result of analyzing all data that our corpus contains. 
+
 \subsection{\RQOne}
+
+We analyzed wide range of different open-source and proprietary projects that use common practices of version numbering that we were able to find from publicly accessible sources. 
+
+We compare open-source projects with proprietary projects in order to understand whether information about released versions publicly shared by proprietary project teams is as consistent as information about released versions shared by open-source project teams.
+
+Table~\ref{tab:ossProjectsInfo} shows detailed information about open-source projects in our corpus. Total number of open-source projects we analyzed is 38. Average number of versions per open-source project is 158 with the median of 84, 15 as the smallest number of versions per project and 1282 as the largest number of versions per project. 
+
+Table~\ref{tab:proprietaryProjectsInfo} shows detailed information about proprietary projects in our corpus. Total number of proprietary projects we analyzed is 21. Average number of versions per proprietary project that we analyzed is 127 with the median of 102, 24 as the smallest number of versions per project and 507 as the largest number of versions per project. 
+
+We found that number of jumps vary greatly between open-source and proprietary projects for a specific version compound. For example, average number of jumps that appear in the second version compound is 2 for open-source projects and 16 for proprietary projects. Likewise, average number of jumps that appear in the third version compound is 3 for open-source projects and 22 for proprietary projects. Average number of jumps that appear in fourth version compound is 2 for open-source projects and 45 for proprietary projects. 
+
+One of the interpretation of our findings is that proprietary projects often do not share information about intermediate releases. Another interpretation is that proprietary projects follow more strict testing procedures than open-source projects and, therefore, avoid publication of information about releases that did not pass testing phase.  Third interpretation is that teams of proprietary projects do not care about consistency in version numbers as much as open-source teams.
+In all cases more jumps means that new release tend to introduces more changes. Also it means that there are more hidden versions that were never released for some reason. Updates are more disruptive. 
+
+\MyParagraph{Implications for managers}
+\\
+\MyParagraph{Implications for build managers}
+\\
+\MyParagraph{Implications for developers}
+\\
+\MyParagraph{Implications for testers}
+\\
+\MyParagraph{Implications for researchers}
+\\
+
+\begin{table*}[htb]
+\begin{adjustbox}{width=\textwidth}
+\csvautotabular{tables/oss_info_analysis_results.csv}
+\end{adjustbox}
+\caption{Summary of OSS projects}
+\label{tab:ossProjectsInfo}
+\end{table*}
+
+\begin{table*}[htb]
+\begin{adjustbox}{width=\textwidth}
+\csvautotabular{tables/proprietary_info_analysis_results.csv}
+\end{adjustbox}
+\caption{Summary of proprietary projects}
+\label{tab:proprietaryProjectsInfo}
+\end{table*}
 
 \begin{table*}[htb]
 \begin{adjustbox}{width=\textwidth}
