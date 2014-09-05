@@ -33,6 +33,10 @@ Danny Dig
 %}
 
 \maketitle
+
+\thispagestyle{plain}
+\pagestyle{plain}
+
 \begin{abstract}
  TODO Abstract
  TODO Category
@@ -68,7 +72,7 @@ When we had to use multiple sources, we merged the version numbers into a single
 \begin{adjustbox}{width=\textwidth}
 \csvautotabular{tables/project_info_analysis_results.csv}
 \end{adjustbox}
-\caption{Summary of the projects in our corpus}
+\caption{Summary of the projects in our corpus. \TODO{put std. dev. as the last column. Application size [MB]}.}
 \label{tab:ProjectsCorpus}
 \end{table*}
 
@@ -129,27 +133,28 @@ our parsing.
 %\TODO{This section}
 
 Developers often use version numbers to communicate information about their project to people involved in the software development process as well as to identify different iterations of their project to users.
-One approach to version numbering, called semantic versioning, conveys information about the changes in the projects that occur from release to release. 
+One approach to version numbering, called \emph{semantic versioning}~\cite{SemanticVersioning}, conveys information about the changes in the projects that occur from release to release. 
 Semantic versioning uses three version compounds that represent the major version, minor version, and patch version.
 The changes to the major version indicate incompatible API changes while changes in the minor version indicate additional functionality and backwards compatibility.
-The changes in the patch version represents backwards compatible bug fixes\cite{SemanticVersioning}.
-Many projects implement some flavor of semantic versioning.
+The changes in the patch version represents backwards compatible bug fixes.
+
 
 %\TODO{Apple versioning}
 %\TODO{Something with the date versioning}
+Many projects implement some flavor of semantic versioning.
+For example, the GNU version numbering scheme~\cite{GNUVersionNumbering} dictates that each release should contain a major and a minor version as the first and second version compounds and claims that additional version compounds are probably unnecessary.
+Apache Portable Runtime projects outlines its version number scheme~\cite{ApacheVersionNumbering} to have three integer version compounds, the first version compound representing the major version, the second the minor version, and the third the patch level.
+Additionally, the Apache Portable Runtime project considers versions that start with a zero in the first version compound as ``unstable'', thus, major work can happen even inside minor version releases.
 
-The GNU version numbering scheme dictates that each release should contain a major and a minor version as the first and second version compounds and claims that additional version compounds are probably unnecessary\cite{GNUVersionNumbering}.
-Apache Portable Runtime projects outlines its version number scheme to have three integer version compounds, the first version compound representing the major version, the second the minor version, and the third the patch level.
-Additionally, the Apache Portable Runtime project consider versions that contain a zero as the first version compound as a special case where incrementing version numbers does not communicate consistent information about the changes in the project \cite{ApacheVersionNumbering}.
-Apple also recommends using three version compounds when assigning version numbers shared resources.
-In this scheme, the first version compound is the major version, the second version compound is a minor version with public interface changes, and the third version compound is another minor version with no public interface changes\cite{AppleVersionNumbering}.
-Microsoft's scheme for version numbering consists of four version compounds representing the major version, the minor versions, the build number, and the revision \cite{MSVersionNumbering}.
+Apple also recommends~\cite{AppleVersionNumbering} using three version compounds when assigning version numbers to shared resources (e.g., libraries, files, etc.).
+In this scheme, the first version compound is the major version, the second version compound is a minor version with public interface changes, and the third version compound is another minor version with no public interface changes.
+Microsoft's  version numbering scheme~\cite{MSVersionNumbering} consists of four version compounds representing the major version, the minor versions, the build number, and the revision.
 
 
 
 Though semantic versioning is a popular versioning scheme, not all projects try to convey information about their contents through version numbering. 
 Some projects use version numbers to communicate the date on which the version of the project was released. 
-For example, Ubuntu versions consist of two version compounds, the first representing the year and the second the month\cite{UbuntuVersionNumbering}.
+For example, Ubuntu versions~\cite{UbuntuVersionNumbering} consist of two version compounds, the first representing the year and the second the month.
 In this paper, we studied inconsistencies in semantic version numbering approach.
 
 \section{Metrics}
@@ -197,7 +202,6 @@ Similarly, the team cannot select version 3.0 for release as an update to 2.1 be
 The team has now eight choices of assigning a new version number to the upcoming release: 
 1.0.3, 1.1.0, 2.0.1, 2.1.1, 2.2.0, 3.0.1, 3.1.0, 4.0.0. 
 In this case, the software team has the option to use three version compounds and the option to build off of older releases. \\
-
 \TODO{rename the labels of examples so that they are revealing the essence of the example -- this will be easier for the reader on later pages to remember the example}
 
 %\TODO{can you find a real example to illustrate the scenarios above}
@@ -205,9 +209,9 @@ In this case, the software team has the option to use three version compounds an
 %\TODO{Why these are valid examples and the state of the practice}
 
 In Examples 3 and 4 the option of building on older versions stems from the need to support users that are unable or unwilling to use the latest release.
-In our corpus the necessity to support older versions is not uncommon. 
-For example, Adobe Flash Player uses different version numbers to distinguish between versions of their software that run on different operating systems such that version number 14.0.0.176 runs on Mac OS X and \TODO{get Version number for windows} runs on Windows OS.
-Flash Player version numbers also indicate which version of an operating system supports Flash Player, version 10.1.102.64 is supported on Mac OS X 10.4 and version 10.3.183.90 is supported on Mac OS X 10.5.
+In our corpus the necessity to support older versions is  common. 
+For example, Adobe Flash Player uses different version numbers to distinguish between versions of their software that run on different operating systems such that version number 14.0.0.176 runs on Mac OS X and 14.0.0.179 runs on Windows OS.
+Flash Player version numbers also indicate which version of an operating system supports Flash Player, versions that start with the version compound 10.1. are supported on Mac OS X 10.4 and versions that start with the version compound 10.3. are supported on Mac OS X 10.5.
 \\
 
 \MyParagraph{Version Number Trees}
@@ -253,11 +257,11 @@ In order to define metatrees, we first define \emph{version sets}.
 A version set represents a list of versions that have common leading version compound values. For example, the list of versions 1.0, 1.1, 1.2, $\dots$, 1.N 
 form the version set 1.x, where ``x'' is a placeholder.
 This representation can be expanded to include additional version compounds. 
-For example the version set 1.x.x represents the set of version sets 1.0.x (including 1.0.0, 1.0.1, 1.0.2, $\dots$, 1.0.N), 1.1.x (including 1.1.0, 1.1.1, 1.1.2, $\dots$, 1.1.N),  $\dots$, 1.M.x (including 1.M.0, 1.M.1, 1.M.2, $\dots$, 1.M.N). As shown in Figure~\ref{fig:diaVersionSet}.
+For example the version set 1.x.x represents the set of version sets 1.0.x (including 1.0.0, 1.0.1, 1.0.2, $\dots$, 1.0.N), 1.1.x (including 1.1.0, 1.1.1, 1.1.2, $\dots$, 1.1.N),  $\dots$, 1.M.x (including 1.M.0, 1.M.1, 1.M.2, $\dots$, 1.M.N). Figure~\ref{fig:diaVersionSet} shows this example.
 
 Finally, x.x.x represents the super set of version sets in the above example, including sets of version sets 1.x.x, 2.x.x, $\dots$, K.x.x.
-In a metatree, the root is the superset of version sets and represents all possible version numbers with the same number of version compounds.
-
+In a metatree, the root represents all possible version numbers 
+for a given number of version compounds (e.g., x.x.x represents all version numbers with three compounds).
 
 %\TODO{Version Set Diagram}
 
@@ -285,12 +289,10 @@ We construct metatrees using the parent-child relationships of the version sets.
 Figure~\ref{fig:diaExamples} shows the metatrees for the lists of versions from Examples 1--4. 
 
 \feedback{Number steps???}
-To construct a metatree from an existing version number list we perform the following operations.
-First we identify all of the version sets that exist within a version number list and put them in a list of version sets.
-For example the version number 1.2.3.4 belongs to the version sets 1.x.x.x, 1.2.x.x, and 1.2.3.x. 
-A version number belongs to a version set if it has common leading version compound values.
-When we form the version sets, we account for the possibility that a version number can be placed in multiple version sets and can add up to one less version sets than the number of version compounds per version number.
-\feedback{help us}
+To construct a metatree from an existing version number list our algorithm performs the following operations.
+First it expands each concrete version number into version number sets.
+A single concrete version number can expand into multiple version number sets.
+For example the version number 1.2.3.4 expands to the version sets 1.x.x.x, 1.2.x.x, and 1.2.3.x. 
 
 \begin{figure*}
  \begin{adjustbox}{width=\textwidth}
@@ -301,11 +303,11 @@ When we form the version sets, we account for the possibility that a version num
 \end{figure*}
 
 
-Then we add the superset of version sets as the root node for the metatree.
-Next we traverse a version set list to find the version numbers with the highest number of placeholders.
-Once we have found the version sets with the highest number of placeholders, we add them to the metatree as children of the root.
-Then we find all the version sets that have one less placeholder and attach them as a child node to a parent node that has the same values of leading version compounds.
-We repeat the previous step until we have traversed all elements in the version set list and added them to our metatree.
+Then the algorithm adds the superset of version sets as the root node for the metatree.
+Next it traverses the version sets to find the version numbers with the highest number of placeholders.
+Once it finds the version sets with the highest number of placeholders, it adds them to the metatree as children of the root.
+Then it finds all the version sets that have one less placeholder and attaches them as a child node to a parent node that has the same values of leading version compounds.
+The algorithm repeats the previous step until it traverses all version sets and adds them to the metatree.
 
 %\TODO{1. Explain how to see number of choices, 2. explain how metatrees show this, 2a. Explain throwing away the most recent}
 
@@ -314,7 +316,7 @@ Likewise we refer to a metatree that consists of version sets containing three v
 %by referring to them as having a depth equal to the number of version compounds a version number within that tree would contain. For example, the metatree with a root node of x.x is called a metatree of depth 2 and a metatree with a root node of x.x.x.x is referred to as a metatree of depth 4.
 
 
-We  created metatrees to help us calculate the \numberchoices which are difficult to compute when only looking at a version number list or a version number tree.
+
 
 In Example 1, a software team's existing versions are 1.0, 1.1, 1.2 with the two choices 1.3 and 2.0 for the next release. As Figure~\ref{fig:diaExamples} shows, we can extract two version sets from the existing list of version numbers: x.x and 1.x. The version set 1.x accounts for the choice to change from 1.2 to 1.3 because both have a 1 as a leading version compound. The version set x.x accounts for the change from 1.0 to 2.0 because the two version numbers have similar structure, but no common version compounds.
 The metatree for Example 1 is a metatree of depth 2.
